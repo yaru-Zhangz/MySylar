@@ -238,6 +238,7 @@ bool FileLogAppender::reopen() {
     m_filestream.open(m_filename);
     return !!m_filestream;
 }
+
 void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) {
     if(level >= m_level) {
         std::cout << m_formatter->format(logger, level, event);
@@ -245,9 +246,10 @@ void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level leve
 }
 
 LogFormatter::LogFormatter(const std::string& pattern) 
-    :m_pattern(pattern){
+    :m_pattern(pattern) {
         init();
 }
+
 std::string LogFormatter::format(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) {
     std::stringstream ss;
     for(auto& i : m_items) {
@@ -255,6 +257,7 @@ std::string LogFormatter::format(std::shared_ptr<Logger> logger, LogLevel::Level
     }
     return ss.str();
 }
+
 void LogFormatter::init() {
 
     // 定义正则表达式：匹配 %xxx{...} 或 %xxx
@@ -337,5 +340,5 @@ Logger::ptr LoggerManager::getLogger(const std::string& name) {
     auto it = m_loggers.find(name);
     return it == m_loggers.end() ? m_root : it->second;
 }
-void init();
+
 }

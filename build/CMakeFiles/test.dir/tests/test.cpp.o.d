@@ -133,6 +133,8 @@ CMakeFiles/test.dir/tests/test.cpp.o: \
  /usr/include/c++/8/bits/atomic_lockfree_defines.h \
  /usr/include/c++/8/backward/auto_ptr.h \
  /home/dragonborn/workspace/sylar/tests/../sylar/include/log.h \
+ /home/dragonborn/workspace/sylar/tests/../sylar/include/singleton.h \
+ /home/dragonborn/workspace/sylar/tests/../sylar/include/util.h \
  /usr/include/c++/8/list /usr/include/c++/8/bits/stl_list.h \
  /usr/include/c++/8/bits/list.tcc /usr/include/c++/8/vector \
  /usr/include/c++/8/bits/stl_vector.h \
@@ -144,5 +146,4 @@ CMakeFiles/test.dir/tests/test.cpp.o: \
  /usr/include/c++/8/bits/fstream.tcc /usr/include/c++/8/map \
  /usr/include/c++/8/bits/stl_tree.h /usr/include/c++/8/bits/stl_map.h \
  /usr/include/c++/8/bits/stl_multimap.h \
- /home/dragonborn/workspace/sylar/tests/../sylar/include/singleton.h \
  /home/dragonborn/workspace/sylar/tests/../sylar/include/util.h

@@ -50,6 +50,9 @@
         "ctime": "cpp",
         "ratio": "cpp",
         "regex": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "strstream": "cpp",
+        "source_location": "cpp",
+        "cinttypes": "cpp"
     }
 }

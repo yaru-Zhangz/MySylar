@@ -198,6 +198,8 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
   /usr/include/c++/8/bits/atomic_lockfree_defines.h \
   /usr/include/c++/8/backward/auto_ptr.h \
   /home/dragonborn/workspace/sylar/sylar/include/log.h \
+  /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
+  /home/dragonborn/workspace/sylar/sylar/include/util.h \
   /usr/include/c++/8/list \
   /usr/include/c++/8/bits/stl_list.h \
   /usr/include/c++/8/bits/list.tcc \
@@ -212,10 +214,18 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
   /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h \
   /usr/include/c++/8/x86_64-redhat-linux/bits/c++io.h \
   /usr/include/c++/8/bits/fstream.tcc \
+  /usr/include/c++/8/map \
+  /usr/include/c++/8/bits/stl_tree.h \
+  /usr/include/c++/8/bits/stl_map.h \
+  /usr/include/c++/8/bits/stl_multimap.h \
   /home/dragonborn/workspace/sylar/sylar/include/util.h
 
 
-/home/dragonborn/workspace/sylar/sylar/include/util.h:
+/usr/include/c++/8/bits/stl_map.h:
+
+/usr/include/c++/8/bits/stl_tree.h:
+
+/usr/include/c++/8/map:
 
 /usr/include/c++/8/bits/fstream.tcc:
 
@@ -230,6 +240,10 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
 /usr/include/c++/8/bits/stl_vector.h:
 
 /usr/include/c++/8/bits/list.tcc:
+
+/usr/include/c++/8/list:
+
+/home/dragonborn/workspace/sylar/sylar/include/util.h:
 
 /usr/include/bits/types/clock_t.h:
 
@@ -260,6 +274,8 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
 /usr/include/c++/8/bits/nested_exception.h:
 
 /usr/include/ctype.h:
+
+/usr/include/c++/8/bits/stl_multimap.h:
 
 /usr/include/bits/locale.h:
 
@@ -338,6 +354,8 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
 /usr/include/c++/8/x86_64-redhat-linux/bits/ctype_inline.h:
 
 /usr/include/c++/8/x86_64-redhat-linux/bits/c++config.h:
+
+/home/dragonborn/workspace/sylar/sylar/include/singleton.h:
 
 /usr/include/c++/8/ios:
 
@@ -426,8 +444,6 @@ CMakeFiles/test.dir/tests/test.cpp.o: /home/dragonborn/workspace/sylar/tests/tes
 /usr/include/c++/8/ostream:
 
 /usr/include/bits/types/locale_t.h:
-
-/usr/include/c++/8/list:
 
 /usr/include/c++/8/vector:
 

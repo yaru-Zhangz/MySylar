@@ -145,6 +145,43 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
+#=============================================================================
+# Target rules for targets named test_config
+
+# Build rule for target.
+test_config: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_config
+.PHONY : test_config
+
+# fast build rule for target.
+test_config/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/build
+.PHONY : test_config/fast
+
+sylar/src/config.o: sylar/src/config.cpp.o
+.PHONY : sylar/src/config.o
+
+# target to build an object file
+sylar/src/config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/config.cpp.o
+.PHONY : sylar/src/config.cpp.o
+
+sylar/src/config.i: sylar/src/config.cpp.i
+.PHONY : sylar/src/config.i
+
+# target to preprocess a source file
+sylar/src/config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/config.cpp.i
+.PHONY : sylar/src/config.cpp.i
+
+sylar/src/config.s: sylar/src/config.cpp.s
+.PHONY : sylar/src/config.s
+
+# target to generate assembly for a file
+sylar/src/config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/config.cpp.s
+.PHONY : sylar/src/config.cpp.s
+
 sylar/src/log.o: sylar/src/log.cpp.o
 .PHONY : sylar/src/log.o
 
@@ -217,6 +254,30 @@ tests/test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/tests/test.cpp.s
 .PHONY : tests/test.cpp.s
 
+tests/test_config.o: tests/test_config.cpp.o
+.PHONY : tests/test_config.o
+
+# target to build an object file
+tests/test_config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cpp.o
+.PHONY : tests/test_config.cpp.o
+
+tests/test_config.i: tests/test_config.cpp.i
+.PHONY : tests/test_config.i
+
+# target to preprocess a source file
+tests/test_config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cpp.i
+.PHONY : tests/test_config.cpp.i
+
+tests/test_config.s: tests/test_config.cpp.s
+.PHONY : tests/test_config.s
+
+# target to generate assembly for a file
+tests/test_config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cpp.s
+.PHONY : tests/test_config.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -227,6 +288,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sylar"
 	@echo "... test"
+	@echo "... test_config"
+	@echo "... sylar/src/config.o"
+	@echo "... sylar/src/config.i"
+	@echo "... sylar/src/config.s"
 	@echo "... sylar/src/log.o"
 	@echo "... sylar/src/log.i"
 	@echo "... sylar/src/log.s"
@@ -236,6 +301,9 @@ help:
 	@echo "... tests/test.o"
 	@echo "... tests/test.i"
 	@echo "... tests/test.s"
+	@echo "... tests/test_config.o"
+	@echo "... tests/test_config.i"
+	@echo "... tests/test_config.s"
 .PHONY : help
 
 

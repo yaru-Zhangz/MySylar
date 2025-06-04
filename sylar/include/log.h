@@ -2,7 +2,7 @@
 #define __SYLAR_LOG_H__
 
 #include "singleton.h"
-
+#include "util.h"
 #include<string>
 #include<stdint.h>
 #include<memory>
@@ -13,6 +13,7 @@
 #include<stdarg.h>
 #include<map>
 
+// 通过宏封装简化调用
 #define SYLAR_LOG_LEVEL(logger, level) \
     if(logger->getLevel() <= level) \
         sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, __FILE__, __LINE__, 0, sylar::GetThreadId(),\
@@ -35,10 +36,13 @@
 #define SYLAR_LOG_FMT_ERROR(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::ERROR, fmt, __VA_ARGS__)
 #define SYLAR_LOG_FMT_FATAL(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::FATAL, fmt, __VA_ARGS__)
 
+#define SYLAR_LOG_ROOT() sylar::LoggerMgr::GetInstance()->getRoot()
 
 namespace sylar{
 
+
 class Logger;
+
 // 日志级别
 class LogLevel {
 public:
@@ -86,12 +90,13 @@ private:
     LogLevel::Level m_level;
 };
 
+// 日志事件包装器
 class LogEventWrap {
 public:
     LogEventWrap(LogEvent::ptr e);
-    ~LogEventWrap();
+    ~LogEventWrap();    // 日志在语句结束时自动提交，无需手动提交，即使发生异常也不会丢失日志
     LogEvent::ptr getEvent() const {return m_event;}
-    std::stringstream& getSS();
+    std::stringstream& getSS(); 
 private:
     LogEvent::ptr m_event;
 };
@@ -187,11 +192,14 @@ private:
     std::ofstream m_filestream;
 };
 
+// 日志管理器：集中管理所有Logger实例
 class LoggerManager {
 public:
     LoggerManager();
     Logger::ptr getLogger(const std::string& name);
     void init();
+
+    Logger::ptr getRoot() const {return m_root;}
 private:
     std::map<std::string, Logger::ptr> m_loggers;
     Logger::ptr m_root;
