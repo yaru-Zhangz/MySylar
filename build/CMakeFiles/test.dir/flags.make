@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/dragonborn/workspace/sylar/sylar/include
+CXX_INCLUDES = -I/home/dragonborn/workspace/sylar/. -I/usr/local/include/yaml-cpp -I/home/dragonborn/workspace/sylar/sylar/include
 
 CXX_FLAGS =  -rdynamic -O3 -g -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function
 
