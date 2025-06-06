@@ -5,19 +5,30 @@
 sylar::ConfigVar<int>::ptr g_int_value_config = 
     sylar::Config::Lookup("system.port", (int)8080, "system port");
 
+sylar::ConfigVar<float>::ptr g_float_value_config = 
+    sylar::Config::Lookup("system.port", (float)10.22f, "system port");
+
+/*
+enum value { 
+Undefined  = 0, 
+Null = 1, 
+Scalar = 2,   // 标量
+Sequence = 3, // 数组
+Map = 4 };    // 字典
+*/
 void print_yaml(const YAML::Node& node, int level) {
-    if(node.IsScalar()) {
+    if(node.IsScalar()) {       // 标量值
         SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << std::string(level*4, ' ') << node.Scalar() << " - " << node.Type() << " - " << level;
-    } else if(node.IsNull()) {
+    } else if(node.IsNull()) {  // 
         SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << std::string(level*4, ' ') << "NULL - " << node.Type() << " - " << level;
-    } else if(node.IsMap()) {
+    } else if(node.IsMap()) {   // 
         for(auto it = node.begin(); it != node.end(); it++) {
             SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << std::string(level*4, ' ') << it->first << " - " << it->second.Type() << " - " << level;
             print_yaml(it->second, level + 1);
         }
     } else if(node.IsSequence()) {
         for(size_t i = 0; i < node.size(); i++) {
-            SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << std::string(level*4, ' ') << i << " - " <<node[i] << " - " << level;
+            SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << std::string(level*4, ' ') << i << " - " << node[i].Type() << " - " << level;
             print_yaml(node[i], level + 1);
         }
     }
@@ -26,11 +37,21 @@ void print_yaml(const YAML::Node& node, int level) {
 void test_yaml() {
     YAML::Node root = YAML::LoadFile("/home/dragonborn/workspace/sylar/bin/conf/log.yml");
     print_yaml(root, 0);
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << root;
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << root.Scalar();
 }
 
+void test_config() {
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "before: " << g_int_value_config->getValue();
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "before: " << g_float_value_config->toString();
+
+    YAML::Node root = YAML::LoadFile("/home/dragonborn/workspace/sylar/bin/conf/log.yml");
+    sylar::Config::LoadFromYaml(root);
+
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after: " << g_int_value_config->getValue();
+    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "after: " << g_float_value_config->toString();
+
+}
 int main(int argc, char** argv) {
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << g_int_value_config->getValue();
-    SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << g_int_value_config->toString();
+    
     test_yaml();
 }

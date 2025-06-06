@@ -303,6 +303,74 @@ CMakeFiles/sylar.dir/sylar/src/config.cpp.o: /home/dragonborn/workspace/sylar/sy
   /usr/local/include/boost/type_traits/is_reference.hpp \
   /usr/local/include/boost/type_traits/is_lvalue_reference.hpp \
   /usr/local/include/boost/type_traits/is_rvalue_reference.hpp \
+  /usr/local/include/yaml-cpp/yaml.h \
+  /usr/local/include/yaml-cpp/parser.h \
+  /usr/local/include/yaml-cpp/dll.h \
+  /usr/local/include/yaml-cpp/emitter.h \
+  /usr/local/include/yaml-cpp/binary.h \
+  /usr/include/c++/8/vector \
+  /usr/include/c++/8/bits/stl_vector.h \
+  /usr/include/c++/8/bits/stl_bvector.h \
+  /usr/include/c++/8/bits/vector.tcc \
+  /usr/local/include/yaml-cpp/emitterdef.h \
+  /usr/local/include/yaml-cpp/emittermanip.h \
+  /usr/local/include/yaml-cpp/null.h \
+  /usr/local/include/yaml-cpp/ostream_wrapper.h \
+  /usr/local/include/yaml-cpp/fptostring.h \
+  /usr/local/include/yaml-cpp/emitterstyle.h \
+  /usr/local/include/yaml-cpp/stlemitter.h \
+  /usr/include/c++/8/list \
+  /usr/include/c++/8/bits/stl_list.h \
+  /usr/include/c++/8/bits/list.tcc \
+  /usr/include/c++/8/set \
+  /usr/include/c++/8/bits/stl_tree.h \
+  /usr/include/c++/8/bits/stl_set.h \
+  /usr/include/c++/8/bits/stl_multiset.h \
+  /usr/include/c++/8/map \
+  /usr/include/c++/8/bits/stl_map.h \
+  /usr/include/c++/8/bits/stl_multimap.h \
+  /usr/local/include/yaml-cpp/exceptions.h \
+  /usr/local/include/yaml-cpp/mark.h \
+  /usr/local/include/yaml-cpp/noexcept.h \
+  /usr/local/include/yaml-cpp/traits.h \
+  /usr/local/include/yaml-cpp/node/node.h \
+  /usr/local/include/yaml-cpp/node/detail/iterator_fwd.h \
+  /usr/local/include/yaml-cpp/node/ptr.h \
+  /usr/local/include/yaml-cpp/node/type.h \
+  /usr/local/include/yaml-cpp/node/impl.h \
+  /usr/local/include/yaml-cpp/node/detail/memory.h \
+  /usr/local/include/yaml-cpp/node/detail/node.h \
+  /usr/local/include/yaml-cpp/node/detail/node_ref.h \
+  /usr/local/include/yaml-cpp/node/detail/node_data.h \
+  /usr/local/include/yaml-cpp/node/detail/node_iterator.h \
+  /usr/include/c++/8/iterator \
+  /usr/include/c++/8/bits/stream_iterator.h \
+  /usr/local/include/yaml-cpp/node/iterator.h \
+  /usr/local/include/yaml-cpp/node/detail/iterator.h \
+  /usr/include/c++/8/atomic \
+  /usr/local/include/yaml-cpp/node/convert.h \
+  /usr/include/c++/8/unordered_map \
+  /usr/include/c++/8/bits/hashtable.h \
+  /usr/include/c++/8/bits/hashtable_policy.h \
+  /usr/include/c++/8/bits/unordered_map.h \
+  /usr/include/c++/8/valarray \
+  /usr/include/c++/8/algorithm \
+  /usr/include/c++/8/bits/stl_algo.h \
+  /usr/include/c++/8/bits/algorithmfwd.h \
+  /usr/include/c++/8/bits/stl_heap.h \
+  /usr/include/c++/8/bits/uniform_int_dist.h \
+  /usr/include/c++/8/bits/valarray_array.h \
+  /usr/include/c++/8/bits/valarray_array.tcc \
+  /usr/include/c++/8/bits/valarray_before.h \
+  /usr/include/c++/8/bits/slice_array.h \
+  /usr/include/c++/8/bits/valarray_after.h \
+  /usr/include/c++/8/bits/gslice.h \
+  /usr/include/c++/8/bits/gslice_array.h \
+  /usr/include/c++/8/bits/mask_array.h \
+  /usr/include/c++/8/bits/indirect_array.h \
+  /usr/local/include/yaml-cpp/node/detail/impl.h \
+  /usr/local/include/yaml-cpp/node/parse.h \
+  /usr/local/include/yaml-cpp/node/emit.h \
   /home/dragonborn/workspace/sylar/sylar/include/log.h \
   /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
   /home/dragonborn/workspace/sylar/sylar/include/util.h \
@@ -310,21 +378,10 @@ CMakeFiles/sylar.dir/sylar/src/config.cpp.o: /home/dragonborn/workspace/sylar/sy
   /usr/include/c++/8/chrono \
   /usr/include/c++/8/ratio \
   /usr/include/c++/8/bits/parse_numbers.h \
-  /usr/include/c++/8/list \
-  /usr/include/c++/8/bits/stl_list.h \
-  /usr/include/c++/8/bits/list.tcc \
-  /usr/include/c++/8/vector \
-  /usr/include/c++/8/bits/stl_vector.h \
-  /usr/include/c++/8/bits/stl_bvector.h \
-  /usr/include/c++/8/bits/vector.tcc \
   /usr/include/c++/8/fstream \
   /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h \
   /usr/include/c++/8/x86_64-redhat-linux/bits/c++io.h \
-  /usr/include/c++/8/bits/fstream.tcc \
-  /usr/include/c++/8/map \
-  /usr/include/c++/8/bits/stl_tree.h \
-  /usr/include/c++/8/bits/stl_map.h \
-  /usr/include/c++/8/bits/stl_multimap.h
+  /usr/include/c++/8/bits/fstream.tcc
 
 CMakeFiles/sylar.dir/sylar/src/log.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/log.cpp \
   /usr/include/stdc-predef.h \
@@ -768,8 +825,6 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/regex.h:
 
-/usr/include/c++/8/bits/regex_compiler.h:
-
 /usr/include/c++/8/bits/regex_scanner.h:
 
 /usr/include/c++/8/bits/regex_automaton.tcc:
@@ -778,31 +833,13 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/stl_deque.h:
 
-/usr/include/c++/8/stack:
-
-/usr/include/c++/8/iterator:
-
-/usr/include/c++/8/bits/uniform_int_dist.h:
-
 /usr/include/c++/8/bits/std_function.h:
 
 /usr/include/c++/8/iostream:
 
 /home/dragonborn/workspace/sylar/sylar/src/log.cpp:
 
-/usr/include/c++/8/bits/stl_tree.h:
-
 /usr/include/c++/8/bits/fstream.tcc:
-
-/usr/include/c++/8/bits/stl_bvector.h:
-
-/usr/include/c++/8/bits/stl_vector.h:
-
-/usr/include/c++/8/bits/list.tcc:
-
-/usr/include/c++/8/list:
-
-/usr/include/c++/8/ratio:
 
 /usr/include/c++/8/chrono:
 
@@ -812,7 +849,67 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /home/dragonborn/workspace/sylar/sylar/include/log.h:
 
+/usr/local/include/yaml-cpp/node/parse.h:
+
+/usr/local/include/yaml-cpp/node/detail/impl.h:
+
+/usr/include/c++/8/bits/mask_array.h:
+
+/usr/include/c++/8/bits/gslice_array.h:
+
+/usr/include/c++/8/bits/valarray_array.h:
+
+/usr/include/c++/8/bits/hashtable_policy.h:
+
+/usr/include/c++/8/unordered_map:
+
+/usr/include/c++/8/ratio:
+
+/usr/local/include/yaml-cpp/node/convert.h:
+
+/usr/include/c++/8/atomic:
+
+/usr/local/include/yaml-cpp/node/iterator.h:
+
+/usr/include/c++/8/iterator:
+
+/usr/local/include/yaml-cpp/node/detail/node_iterator.h:
+
+/usr/local/include/yaml-cpp/node/detail/memory.h:
+
+/usr/local/include/yaml-cpp/node/impl.h:
+
+/usr/local/include/yaml-cpp/node/type.h:
+
+/usr/include/c++/8/bits/stl_multiset.h:
+
+/usr/include/c++/8/bits/stl_tree.h:
+
+/usr/include/c++/8/bits/regex_compiler.h:
+
+/usr/include/c++/8/set:
+
+/usr/include/c++/8/bits/list.tcc:
+
+/usr/include/c++/8/list:
+
+/usr/include/c++/8/bits/uniform_int_dist.h:
+
+/usr/local/include/yaml-cpp/null.h:
+
+/usr/include/c++/8/bits/stl_bvector.h:
+
+/usr/include/c++/8/bits/stl_vector.h:
+
+/usr/include/c++/8/stack:
+
+/usr/local/include/yaml-cpp/dll.h:
+
+/usr/local/include/yaml-cpp/parser.h:
+
 /usr/include/c++/8/regex:
+
+/usr/include/c++/8/bits/gslice.h:
 
 /usr/local/include/boost/type_traits/is_rvalue_reference.hpp:
 
@@ -829,6 +926,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/x86_64-redhat-linux/bits/messages_members.h:
 
 /usr/include/c++/8/x86_64-redhat-linux/bits/time_members.h:
+
+/usr/local/include/yaml-cpp/emittermanip.h:
 
 /usr/include/c++/8/locale:
 
@@ -850,6 +949,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/local/include/boost/type_traits/is_const.hpp:
 
+/usr/include/c++/8/bits/unordered_map.h:
+
 /usr/local/include/boost/type_traits/is_unsigned.hpp:
 
 /usr/include/bits/local_lim.h:
@@ -859,6 +960,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/local/include/boost/version.hpp:
 
 /usr/local/include/boost/type_traits/intrinsics.hpp:
+
+/usr/include/c++/8/bits/hashtable.h:
 
 /usr/local/include/boost/type_traits/is_enum.hpp:
 
@@ -906,6 +1009,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/stl_stack.h:
 
+/usr/include/c++/8/bits/valarray_array.tcc:
+
 /usr/local/include/boost/type_traits/is_integral.hpp:
 
 /usr/local/include/boost/type_traits/is_arithmetic.hpp:
@@ -940,6 +1045,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/local/include/boost/lexical_cast/bad_lexical_cast.hpp:
 
+/usr/local/include/yaml-cpp/node/detail/node_data.h:
+
 /usr/local/include/boost/lexical_cast/detail/buffer_view.hpp:
 
 /usr/local/include/boost/config/detail/cxx_composite.hpp:
@@ -962,7 +1069,11 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/bits/environments.h:
 
+/usr/local/include/yaml-cpp/exceptions.h:
+
 /usr/include/bits/posix_opt.h:
+
+/usr/include/c++/8/bits/stl_set.h:
 
 /usr/local/include/boost/config/stdlib/libstdcpp3.hpp:
 
@@ -983,6 +1094,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/bits/types/clock_t.h:
 
 /usr/include/bits/time.h:
+
+/usr/local/include/yaml-cpp/mark.h:
 
 /usr/include/c++/8/bits/shared_ptr.h:
 
@@ -1038,6 +1151,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/bits/types/struct_sched_param.h:
 
+/usr/local/include/yaml-cpp/ostream_wrapper.h:
+
 /home/dragonborn/workspace/sylar/sylar/include/config.h:
 
 /usr/local/include/boost/config/helper_macros.hpp:
@@ -1074,6 +1189,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/ext/type_traits.h:
 
+/usr/local/include/yaml-cpp/traits.h:
+
 /usr/include/bits/posix2_lim.h:
 
 /usr/include/asm/errno.h:
@@ -1088,6 +1205,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/bits/sched.h:
 
+/usr/local/include/yaml-cpp/emitter.h:
+
 /usr/include/c++/8/istream:
 
 /usr/include/c++/8/bits/ostream.tcc:
@@ -1095,6 +1214,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/bits/cpp_type_traits.h:
 
 /usr/include/c++/8/ext/concurrence.h:
+
+/usr/local/include/yaml-cpp/yaml.h:
 
 /usr/include/c++/8/bits/stl_function.h:
 
@@ -1133,6 +1254,10 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/asm-generic/errno.h:
 
 /usr/include/c++/8/bits/stl_construct.h:
+
+/usr/local/include/yaml-cpp/node/detail/node.h:
+
+/usr/local/include/yaml-cpp/emitterstyle.h:
 
 /usr/include/stdint.h:
 
@@ -1210,6 +1335,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/bits/types/struct_itimerspec.h:
 
+/usr/local/include/yaml-cpp/emitterdef.h:
+
 /usr/include/c++/8/ext/aligned_buffer.h:
 
 /usr/include/c++/8/bits/vector.tcc:
@@ -1222,15 +1349,21 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/stdlib.h:
 
+/usr/include/c++/8/valarray:
+
 /usr/include/c++/8/bits/stl_uninitialized.h:
 
 /usr/include/c++/8/bits/concept_check.h:
 
 /usr/include/c++/8/debug/debug.h:
 
+/usr/local/include/yaml-cpp/stlemitter.h:
+
 /usr/lib/gcc/x86_64-redhat-linux/8/include/stddef.h:
 
 /usr/include/c++/8/functional:
+
+/usr/local/include/yaml-cpp/node/ptr.h:
 
 /usr/include/c++/8/initializer_list:
 
@@ -1247,6 +1380,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/x86_64-redhat-linux/bits/ctype_base.h:
 
 /usr/include/c++/8/x86_64-redhat-linux/bits/c++config.h:
+
+/usr/local/include/yaml-cpp/binary.h:
 
 /usr/include/c++/8/ext/new_allocator.h:
 
@@ -1266,6 +1401,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/exception_defines.h:
 
+/usr/local/include/yaml-cpp/node/emit.h:
+
 /usr/include/c++/8/sstream:
 
 /usr/include/c++/8/ext/alloc_traits.h:
@@ -1279,6 +1416,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/utility:
 
 /usr/include/c++/8/string:
+
+/usr/include/c++/8/bits/valarray_before.h:
 
 /usr/include/bits/xopen_lim.h:
 
@@ -1334,9 +1473,9 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/basic_string.h:
 
-/usr/include/c++/8/algorithm:
-
 /usr/include/c++/8/fstream:
+
+/usr/include/c++/8/algorithm:
 
 /usr/include/sched.h:
 
@@ -1376,6 +1515,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/basic_string.tcc:
 
+/usr/include/c++/8/bits/slice_array.h:
+
 /usr/include/bits/stdlib-float.h:
 
 /usr/include/stdio.h:
@@ -1383,6 +1524,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/bits/istream.tcc:
 
 /usr/include/bits/types/__fpos_t.h:
+
+/usr/local/include/yaml-cpp/node/detail/iterator_fwd.h:
 
 /usr/include/features.h:
 
@@ -1404,6 +1547,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/thread:
 
+/usr/local/include/yaml-cpp/node/detail/iterator.h:
+
 /usr/include/bits/cpu-set.h:
 
 /usr/include/asm-generic/errno-base.h:
@@ -1412,6 +1557,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/functional_hash.h:
 
+/usr/local/include/yaml-cpp/fptostring.h:
+
 /usr/include/c++/8/tuple:
 
 /usr/include/c++/8/bits/stl_algobase.h:
@@ -1419,6 +1566,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/bits/invoke.h:
 
 /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h:
+
+/usr/include/c++/8/bits/indirect_array.h:
 
 /usr/include/c++/8/bits/shared_ptr_atomic.h:
 
@@ -1430,9 +1579,13 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/bits/atomic_lockfree_defines.h:
 
+/usr/local/include/yaml-cpp/node/detail/node_ref.h:
+
 /usr/local/include/boost/config/detail/posix_features.hpp:
 
 /usr/include/c++/8/ios:
+
+/usr/local/include/yaml-cpp/node/node.h:
 
 /usr/include/c++/8/bits/locale_classes.h:
 
@@ -1444,6 +1597,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/include/c++/8/x86_64-redhat-linux/bits/error_constants.h:
 
+/usr/include/c++/8/bits/valarray_after.h:
+
 /usr/include/bits/thread-shared-types.h:
 
 /usr/local/include/boost/config/compiler/gcc.hpp:
@@ -1453,6 +1608,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /usr/include/c++/8/cwctype:
 
 /usr/include/bits/wctype-wchar.h:
+
+/usr/local/include/yaml-cpp/noexcept.h:
 
 /usr/include/bits/flt-eval-method.h:
 
