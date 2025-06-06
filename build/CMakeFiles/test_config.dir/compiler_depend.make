@@ -303,34 +303,15 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
   /usr/local/include/boost/type_traits/is_reference.hpp \
   /usr/local/include/boost/type_traits/is_lvalue_reference.hpp \
   /usr/local/include/boost/type_traits/is_rvalue_reference.hpp \
-  /home/dragonborn/workspace/sylar/sylar/include/log.h \
-  /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
-  /home/dragonborn/workspace/sylar/sylar/include/util.h \
-  /usr/include/c++/8/thread \
-  /usr/include/c++/8/chrono \
-  /usr/include/c++/8/ratio \
-  /usr/include/c++/8/bits/parse_numbers.h \
-  /usr/include/c++/8/list \
-  /usr/include/c++/8/bits/stl_list.h \
-  /usr/include/c++/8/bits/list.tcc \
-  /usr/include/c++/8/vector \
-  /usr/include/c++/8/bits/stl_vector.h \
-  /usr/include/c++/8/bits/stl_bvector.h \
-  /usr/include/c++/8/bits/vector.tcc \
-  /usr/include/c++/8/fstream \
-  /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h \
-  /usr/include/c++/8/x86_64-redhat-linux/bits/c++io.h \
-  /usr/include/c++/8/bits/fstream.tcc \
-  /usr/include/c++/8/map \
-  /usr/include/c++/8/bits/stl_tree.h \
-  /usr/include/c++/8/bits/stl_map.h \
-  /usr/include/c++/8/bits/stl_multimap.h \
-  /home/dragonborn/workspace/sylar/sylar/include/log.h \
   /usr/local/include/yaml-cpp/yaml.h \
   /usr/local/include/yaml-cpp/parser.h \
   /usr/local/include/yaml-cpp/dll.h \
   /usr/local/include/yaml-cpp/emitter.h \
   /usr/local/include/yaml-cpp/binary.h \
+  /usr/include/c++/8/vector \
+  /usr/include/c++/8/bits/stl_vector.h \
+  /usr/include/c++/8/bits/stl_bvector.h \
+  /usr/include/c++/8/bits/vector.tcc \
   /usr/local/include/yaml-cpp/emitterdef.h \
   /usr/local/include/yaml-cpp/emittermanip.h \
   /usr/local/include/yaml-cpp/null.h \
@@ -338,9 +319,16 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
   /usr/local/include/yaml-cpp/fptostring.h \
   /usr/local/include/yaml-cpp/emitterstyle.h \
   /usr/local/include/yaml-cpp/stlemitter.h \
+  /usr/include/c++/8/list \
+  /usr/include/c++/8/bits/stl_list.h \
+  /usr/include/c++/8/bits/list.tcc \
   /usr/include/c++/8/set \
+  /usr/include/c++/8/bits/stl_tree.h \
   /usr/include/c++/8/bits/stl_set.h \
   /usr/include/c++/8/bits/stl_multiset.h \
+  /usr/include/c++/8/map \
+  /usr/include/c++/8/bits/stl_map.h \
+  /usr/include/c++/8/bits/stl_multimap.h \
   /usr/local/include/yaml-cpp/exceptions.h \
   /usr/local/include/yaml-cpp/mark.h \
   /usr/local/include/yaml-cpp/noexcept.h \
@@ -382,8 +370,30 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
   /usr/include/c++/8/bits/indirect_array.h \
   /usr/local/include/yaml-cpp/node/detail/impl.h \
   /usr/local/include/yaml-cpp/node/parse.h \
-  /usr/local/include/yaml-cpp/node/emit.h
+  /usr/local/include/yaml-cpp/node/emit.h \
+  /home/dragonborn/workspace/sylar/sylar/include/log.h \
+  /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
+  /home/dragonborn/workspace/sylar/sylar/include/util.h \
+  /usr/include/c++/8/thread \
+  /usr/include/c++/8/chrono \
+  /usr/include/c++/8/ratio \
+  /usr/include/c++/8/bits/parse_numbers.h \
+  /usr/include/c++/8/fstream \
+  /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h \
+  /usr/include/c++/8/x86_64-redhat-linux/bits/c++io.h \
+  /usr/include/c++/8/bits/fstream.tcc \
+  /home/dragonborn/workspace/sylar/sylar/include/log.h
 
+
+/usr/include/c++/8/bits/fstream.tcc:
+
+/usr/include/c++/8/chrono:
+
+/home/dragonborn/workspace/sylar/sylar/include/util.h:
+
+/home/dragonborn/workspace/sylar/sylar/include/singleton.h:
+
+/home/dragonborn/workspace/sylar/sylar/include/log.h:
 
 /usr/local/include/yaml-cpp/node/parse.h:
 
@@ -398,6 +408,10 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
 /usr/include/c++/8/bits/hashtable_policy.h:
 
 /usr/include/c++/8/unordered_map:
+
+/usr/include/c++/8/ratio:
+
+/usr/local/include/yaml-cpp/node/convert.h:
 
 /usr/include/c++/8/atomic:
 
@@ -415,39 +429,25 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
 
 /usr/include/c++/8/bits/stl_multiset.h:
 
-/usr/include/c++/8/set:
-
-/usr/include/c++/8/bits/uniform_int_dist.h:
-
-/usr/local/include/yaml-cpp/null.h:
-
-/usr/local/include/yaml-cpp/dll.h:
-
-/usr/local/include/yaml-cpp/parser.h:
-
 /usr/include/c++/8/bits/stl_tree.h:
 
-/usr/include/c++/8/bits/fstream.tcc:
-
-/usr/include/c++/8/bits/stl_bvector.h:
-
-/usr/include/c++/8/bits/stl_vector.h:
+/usr/include/c++/8/set:
 
 /usr/include/c++/8/bits/list.tcc:
 
 /usr/include/c++/8/list:
 
-/usr/local/include/yaml-cpp/node/convert.h:
+/usr/include/c++/8/bits/uniform_int_dist.h:
 
-/usr/include/c++/8/ratio:
+/usr/local/include/yaml-cpp/null.h:
 
-/usr/include/c++/8/chrono:
+/usr/include/c++/8/bits/stl_bvector.h:
 
-/home/dragonborn/workspace/sylar/sylar/include/util.h:
+/usr/include/c++/8/bits/stl_vector.h:
 
-/home/dragonborn/workspace/sylar/sylar/include/singleton.h:
+/usr/local/include/yaml-cpp/dll.h:
 
-/home/dragonborn/workspace/sylar/sylar/include/log.h:
+/usr/local/include/yaml-cpp/parser.h:
 
 /usr/include/c++/8/bits/gslice.h:
 
@@ -995,9 +995,9 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
 
 /usr/include/c++/8/bits/basic_string.h:
 
-/usr/include/c++/8/algorithm:
-
 /usr/include/c++/8/fstream:
+
+/usr/include/c++/8/algorithm:
 
 /usr/include/sched.h:
 
@@ -1067,9 +1067,9 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
 
 /usr/include/linux/errno.h:
 
-/usr/local/include/yaml-cpp/node/detail/iterator.h:
-
 /usr/include/c++/8/thread:
+
+/usr/local/include/yaml-cpp/node/detail/iterator.h:
 
 /usr/include/bits/cpu-set.h:
 
@@ -1087,9 +1087,9 @@ CMakeFiles/test_config.dir/tests/test_config.cpp.o: /home/dragonborn/workspace/s
 
 /usr/include/c++/8/bits/invoke.h:
 
-/usr/include/c++/8/bits/indirect_array.h:
-
 /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h:
+
+/usr/include/c++/8/bits/indirect_array.h:
 
 /usr/include/c++/8/bits/shared_ptr_atomic.h:
 

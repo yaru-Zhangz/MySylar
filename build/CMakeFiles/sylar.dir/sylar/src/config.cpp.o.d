@@ -220,18 +220,65 @@ CMakeFiles/sylar.dir/sylar/src/config.cpp.o: \
  /usr/local/include/boost/type_traits/is_reference.hpp \
  /usr/local/include/boost/type_traits/is_lvalue_reference.hpp \
  /usr/local/include/boost/type_traits/is_rvalue_reference.hpp \
+ /usr/local/include/yaml-cpp/yaml.h /usr/local/include/yaml-cpp/parser.h \
+ /usr/local/include/yaml-cpp/dll.h /usr/local/include/yaml-cpp/emitter.h \
+ /usr/local/include/yaml-cpp/binary.h /usr/include/c++/8/vector \
+ /usr/include/c++/8/bits/stl_vector.h \
+ /usr/include/c++/8/bits/stl_bvector.h /usr/include/c++/8/bits/vector.tcc \
+ /usr/local/include/yaml-cpp/emitterdef.h \
+ /usr/local/include/yaml-cpp/emittermanip.h \
+ /usr/local/include/yaml-cpp/null.h \
+ /usr/local/include/yaml-cpp/ostream_wrapper.h \
+ /usr/local/include/yaml-cpp/fptostring.h \
+ /usr/local/include/yaml-cpp/emitterstyle.h \
+ /usr/local/include/yaml-cpp/stlemitter.h /usr/include/c++/8/list \
+ /usr/include/c++/8/bits/stl_list.h /usr/include/c++/8/bits/list.tcc \
+ /usr/include/c++/8/set /usr/include/c++/8/bits/stl_tree.h \
+ /usr/include/c++/8/bits/stl_set.h /usr/include/c++/8/bits/stl_multiset.h \
+ /usr/include/c++/8/map /usr/include/c++/8/bits/stl_map.h \
+ /usr/include/c++/8/bits/stl_multimap.h \
+ /usr/local/include/yaml-cpp/exceptions.h \
+ /usr/local/include/yaml-cpp/mark.h \
+ /usr/local/include/yaml-cpp/noexcept.h \
+ /usr/local/include/yaml-cpp/traits.h \
+ /usr/local/include/yaml-cpp/node/node.h \
+ /usr/local/include/yaml-cpp/node/detail/iterator_fwd.h \
+ /usr/local/include/yaml-cpp/node/ptr.h \
+ /usr/local/include/yaml-cpp/node/type.h \
+ /usr/local/include/yaml-cpp/node/impl.h \
+ /usr/local/include/yaml-cpp/node/detail/memory.h \
+ /usr/local/include/yaml-cpp/node/detail/node.h \
+ /usr/local/include/yaml-cpp/node/detail/node_ref.h \
+ /usr/local/include/yaml-cpp/node/detail/node_data.h \
+ /usr/local/include/yaml-cpp/node/detail/node_iterator.h \
+ /usr/include/c++/8/iterator /usr/include/c++/8/bits/stream_iterator.h \
+ /usr/local/include/yaml-cpp/node/iterator.h \
+ /usr/local/include/yaml-cpp/node/detail/iterator.h \
+ /usr/include/c++/8/atomic /usr/local/include/yaml-cpp/node/convert.h \
+ /usr/include/c++/8/unordered_map /usr/include/c++/8/bits/hashtable.h \
+ /usr/include/c++/8/bits/hashtable_policy.h \
+ /usr/include/c++/8/bits/unordered_map.h /usr/include/c++/8/valarray \
+ /usr/include/c++/8/algorithm /usr/include/c++/8/bits/stl_algo.h \
+ /usr/include/c++/8/bits/algorithmfwd.h \
+ /usr/include/c++/8/bits/stl_heap.h \
+ /usr/include/c++/8/bits/uniform_int_dist.h \
+ /usr/include/c++/8/bits/valarray_array.h \
+ /usr/include/c++/8/bits/valarray_array.tcc \
+ /usr/include/c++/8/bits/valarray_before.h \
+ /usr/include/c++/8/bits/slice_array.h \
+ /usr/include/c++/8/bits/valarray_after.h \
+ /usr/include/c++/8/bits/gslice.h /usr/include/c++/8/bits/gslice_array.h \
+ /usr/include/c++/8/bits/mask_array.h \
+ /usr/include/c++/8/bits/indirect_array.h \
+ /usr/local/include/yaml-cpp/node/detail/impl.h \
+ /usr/local/include/yaml-cpp/node/parse.h \
+ /usr/local/include/yaml-cpp/node/emit.h \
  /home/dragonborn/workspace/sylar/sylar/include/log.h \
  /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
  /home/dragonborn/workspace/sylar/sylar/include/util.h \
  /usr/include/c++/8/thread /usr/include/c++/8/chrono \
  /usr/include/c++/8/ratio /usr/include/c++/8/bits/parse_numbers.h \
- /usr/include/c++/8/list /usr/include/c++/8/bits/stl_list.h \
- /usr/include/c++/8/bits/list.tcc /usr/include/c++/8/vector \
- /usr/include/c++/8/bits/stl_vector.h \
- /usr/include/c++/8/bits/stl_bvector.h /usr/include/c++/8/bits/vector.tcc \
  /usr/include/c++/8/fstream \
  /usr/include/c++/8/x86_64-redhat-linux/bits/basic_file.h \
  /usr/include/c++/8/x86_64-redhat-linux/bits/c++io.h \
- /usr/include/c++/8/bits/fstream.tcc /usr/include/c++/8/map \
- /usr/include/c++/8/bits/stl_tree.h /usr/include/c++/8/bits/stl_map.h \
- /usr/include/c++/8/bits/stl_multimap.h
+ /usr/include/c++/8/bits/fstream.tcc

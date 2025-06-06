@@ -53,6 +53,8 @@
         "thread": "cpp",
         "strstream": "cpp",
         "source_location": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "set": "cpp",
+        "valarray": "cpp"
     }
 }
