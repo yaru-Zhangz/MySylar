@@ -16,3 +16,41 @@ logs:
 system:
     port: 9900
     value: 15
+    int_vec: [10, 20, 30]
+    int_list: [20, 40, 50]
+    int_set: [1, 2, 2]
+    int_uset: [2, 2, 2]
+    int_map: 
+          k1: 30
+          k2: 20
+          k3: 30
+    int_umap:
+          k1: 10
+          k2: 20
+          k3: 30
+class:
+    person:
+        name: sylar
+        age: 31
+        sex: true
+    map:
+        sylar01:
+          name: sylar01
+          age: 18
+          sex: false
+        sylar02:
+          name: sylar02
+          age: 40
+          sex: true
+    vec_map:
+        k1:
+            - name: m1
+              age: 33
+              sex: true
+            - name: m2
+              age: 33
+              sex: false
+        k2:
+            - name: m3
+              age: 22
+              sex: true
