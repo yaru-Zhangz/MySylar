@@ -273,12 +273,13 @@ public:
     }
 
     const T getValue() const { return m_val;}
+    
     void setValue(const T& v) { 
         if(v == m_val) {
             return;
         }
         for(auto& i : m_cbs) {
-            i(m_val, v);
+            i.second(m_val, v);
         }
         m_val = v;
     }
@@ -296,6 +297,10 @@ public:
     {
         auto it = m_cbs.find(key);
         return it == m_cbs.end() ? nullptr : it->second;
+    }
+
+    void clearListener() {
+        m_cbs.clear();
     }
 private:
     T m_val;

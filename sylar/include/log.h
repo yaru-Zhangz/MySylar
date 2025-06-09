@@ -25,6 +25,12 @@
 #define SYLAR_LOG_ERROR(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::ERROR)
 #define SYLAR_LOG_FATAL(logger) SYLAR_LOG_LEVEL(logger, sylar::LogLevel::FATAL)
 
+/*
+example:
+    logger->debug("User %s logged in from %s (attempt %d)", "Alice", "192.168.1.1", 3);
+Output:
+    User Alice logged in from 192.168.1.1 (attempt 3)
+*/
 #define SYLAR_LOG_FMT_LEVEL(log, level, fmt, ...) \
     if(logger->getLevel() <= level) \
         sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, __FILE__, __LINE__, 0, sylar::GetThreadId(),\
@@ -37,11 +43,12 @@
 #define SYLAR_LOG_FMT_FATAL(logger, fmt, ...) SYLAR_LOG_FMT_LEVEL(logger, sylar::LogLevel::FATAL, fmt, __VA_ARGS__)
 
 #define SYLAR_LOG_ROOT() sylar::LoggerMgr::GetInstance()->getRoot()
+#define SYLAR_LOG_NAME(name) sylar::LoggerMgr::GetInstance()->getLogger(name)
 
 namespace sylar{
 
-
 class Logger;
+class LoggerManager;
 
 // 日志级别
 class LogLevel {
@@ -65,6 +72,7 @@ public:
     LogEvent(std::shared_ptr<Logger> logger, LogLevel::Level, 
             const char* file, uint32_t line, uint32_t elapse
             , uint32_t thread_id, uint32_t fiber_id, uint64_t time);
+
     const char* getFile() const { return m_file;}
     uint32_t getLine() const { return m_line;}
     uint32_t getElapse() const { return m_elapse;}
@@ -75,6 +83,7 @@ public:
     std::shared_ptr<Logger> getLogger() const { return m_logger;}
     std::stringstream& getSS() { return m_ss;}
     LogLevel::Level getLevel() const { return m_level;}
+
     void format(const char* fmt, ...);
     void format(const char* fmt, va_list al);
 private:
@@ -107,6 +116,7 @@ public:
     using ptr = std::shared_ptr<LogFormatter>;
     LogFormatter(const std::string& pattern);
     std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
+    std::ostream& format(std::ostream& ofs, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
 public:
     class FormatItem {
     public:
@@ -116,6 +126,7 @@ public:
     };
 
     void init();
+    const std::string getPattern() const { return m_pattern;}
 private:
     std::string m_pattern;
     std::vector<FormatItem::ptr> m_items;
@@ -132,15 +143,17 @@ public:
 
     void setFormatter(LogFormatter::ptr val) {m_formatter = val;}
     LogFormatter::ptr getFormatter() const {return m_formatter;}
+
+    LogLevel::Level getLevel() const { return m_level;}
+    void setLevel(LogLevel::Level val) {m_level = val;}
 protected:
     LogLevel::Level m_level = LogLevel::DEBUG;
     LogFormatter::ptr m_formatter;
     };
     
-
-
 // 日志输出器
 class Logger : public std::enable_shared_from_this<Logger>{
+friend class LoggerManager;
 public:
     using ptr = std::shared_ptr<Logger>;
 
@@ -164,6 +177,7 @@ private:
     LogLevel::Level m_level;                    // 日志级别
     std::list<LogAppender::ptr> m_appenders;    // Appender集合
     LogFormatter::ptr m_formatter;
+    Logger::ptr m_root;
 
 };
 
