@@ -1,8 +1,9 @@
 #include "util.h"
-
+#include <sys/syscall.h>
+#include <unistd.h>
 namespace sylar {
     pid_t GetThreadId() {
-        return static_cast<uint32_t>(std::hash<std::thread::id>()(std::this_thread::get_id()));
+        return syscall(SYS_gettid);
     }
 
     uint32_t GetFiberId() {

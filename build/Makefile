@@ -158,6 +158,19 @@ test_config/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/build
 .PHONY : test_config/fast
 
+#=============================================================================
+# Target rules for targets named test_thread
+
+# Build rule for target.
+test_thread: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_thread
+.PHONY : test_thread
+
+# fast build rule for target.
+test_thread/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/build
+.PHONY : test_thread/fast
+
 sylar/src/config.o: sylar/src/config.cpp.o
 .PHONY : sylar/src/config.o
 
@@ -205,6 +218,30 @@ sylar/src/log.s: sylar/src/log.cpp.s
 sylar/src/log.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/log.cpp.s
 .PHONY : sylar/src/log.cpp.s
+
+sylar/src/thread.o: sylar/src/thread.cpp.o
+.PHONY : sylar/src/thread.o
+
+# target to build an object file
+sylar/src/thread.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/thread.cpp.o
+.PHONY : sylar/src/thread.cpp.o
+
+sylar/src/thread.i: sylar/src/thread.cpp.i
+.PHONY : sylar/src/thread.i
+
+# target to preprocess a source file
+sylar/src/thread.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/thread.cpp.i
+.PHONY : sylar/src/thread.cpp.i
+
+sylar/src/thread.s: sylar/src/thread.cpp.s
+.PHONY : sylar/src/thread.s
+
+# target to generate assembly for a file
+sylar/src/thread.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/src/thread.cpp.s
+.PHONY : sylar/src/thread.cpp.s
 
 sylar/src/util.o: sylar/src/util.cpp.o
 .PHONY : sylar/src/util.o
@@ -278,6 +315,30 @@ tests/test_config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_config.dir/build.make CMakeFiles/test_config.dir/tests/test_config.cpp.s
 .PHONY : tests/test_config.cpp.s
 
+tests/test_thread.o: tests/test_thread.cpp.o
+.PHONY : tests/test_thread.o
+
+# target to build an object file
+tests/test_thread.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/tests/test_thread.cpp.o
+.PHONY : tests/test_thread.cpp.o
+
+tests/test_thread.i: tests/test_thread.cpp.i
+.PHONY : tests/test_thread.i
+
+# target to preprocess a source file
+tests/test_thread.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/tests/test_thread.cpp.i
+.PHONY : tests/test_thread.cpp.i
+
+tests/test_thread.s: tests/test_thread.cpp.s
+.PHONY : tests/test_thread.s
+
+# target to generate assembly for a file
+tests/test_thread.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/tests/test_thread.cpp.s
+.PHONY : tests/test_thread.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -289,12 +350,16 @@ help:
 	@echo "... sylar"
 	@echo "... test"
 	@echo "... test_config"
+	@echo "... test_thread"
 	@echo "... sylar/src/config.o"
 	@echo "... sylar/src/config.i"
 	@echo "... sylar/src/config.s"
 	@echo "... sylar/src/log.o"
 	@echo "... sylar/src/log.i"
 	@echo "... sylar/src/log.s"
+	@echo "... sylar/src/thread.o"
+	@echo "... sylar/src/thread.i"
+	@echo "... sylar/src/thread.s"
 	@echo "... sylar/src/util.o"
 	@echo "... sylar/src/util.i"
 	@echo "... sylar/src/util.s"
@@ -304,6 +369,9 @@ help:
 	@echo "... tests/test_config.o"
 	@echo "... tests/test_config.i"
 	@echo "... tests/test_config.s"
+	@echo "... tests/test_thread.o"
+	@echo "... tests/test_thread.i"
+	@echo "... tests/test_thread.s"
 .PHONY : help
 
 

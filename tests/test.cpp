@@ -14,6 +14,8 @@ int main(int argc, char** argv) {
 
     SYLAR_LOG_FMT_ERROR(logger, "test macro fmt error %s", "aa");
     auto l = sylar::LoggerMgr::GetInstance()->getLogger("xx");
+
+    SYLAR_LOG_INFO(SYLAR_LOG_NAME("dragonborn")) << "hello";
     SYLAR_LOG_INFO(l) << "xxxx";
     return 0;
 
@@ -24,6 +26,5 @@ int main(int argc, char** argv) {
 4、检查日志级别是否大于等于m_level，若低于设置级别则丢弃
 5、调用StdoutLogAppender的log方法，调用具体的appender的log方法，在log方法里调用formatter的format方法 -> 调用每一个item的format方法，
 将结果输出到stdout/file
-
 */
 }

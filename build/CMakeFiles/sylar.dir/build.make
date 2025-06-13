@@ -76,49 +76,64 @@ CMakeFiles/sylar.dir/sylar/src/log.cpp.o: CMakeFiles/sylar.dir/flags.make
 CMakeFiles/sylar.dir/sylar/src/log.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/log.cpp
 CMakeFiles/sylar.dir/sylar/src/log.cpp.o: CMakeFiles/sylar.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sylar.dir/sylar/src/log.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/log.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/log.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/log.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/log.cpp
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/log.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/log.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/log.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/log.cpp
 
 CMakeFiles/sylar.dir/sylar/src/log.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sylar.dir/sylar/src/log.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/log.cpp > CMakeFiles/sylar.dir/sylar/src/log.cpp.i
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/log.cpp > CMakeFiles/sylar.dir/sylar/src/log.cpp.i
 
 CMakeFiles/sylar.dir/sylar/src/log.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar.dir/sylar/src/log.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/log.cpp -o CMakeFiles/sylar.dir/sylar/src/log.cpp.s
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/log.cpp -o CMakeFiles/sylar.dir/sylar/src/log.cpp.s
 
 CMakeFiles/sylar.dir/sylar/src/util.cpp.o: CMakeFiles/sylar.dir/flags.make
 CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/util.cpp
 CMakeFiles/sylar.dir/sylar/src/util.cpp.o: CMakeFiles/sylar.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sylar.dir/sylar/src/util.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/util.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/util.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/util.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/util.cpp
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/util.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/util.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/util.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/util.cpp
 
 CMakeFiles/sylar.dir/sylar/src/util.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sylar.dir/sylar/src/util.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/util.cpp > CMakeFiles/sylar.dir/sylar/src/util.cpp.i
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/util.cpp > CMakeFiles/sylar.dir/sylar/src/util.cpp.i
 
 CMakeFiles/sylar.dir/sylar/src/util.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar.dir/sylar/src/util.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/util.cpp -o CMakeFiles/sylar.dir/sylar/src/util.cpp.s
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/util.cpp -o CMakeFiles/sylar.dir/sylar/src/util.cpp.s
 
 CMakeFiles/sylar.dir/sylar/src/config.cpp.o: CMakeFiles/sylar.dir/flags.make
 CMakeFiles/sylar.dir/sylar/src/config.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/config.cpp
 CMakeFiles/sylar.dir/sylar/src/config.cpp.o: CMakeFiles/sylar.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sylar.dir/sylar/src/config.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/config.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/config.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/config.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/config.cpp
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/config.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/config.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/config.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/config.cpp
 
 CMakeFiles/sylar.dir/sylar/src/config.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sylar.dir/sylar/src/config.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/config.cpp > CMakeFiles/sylar.dir/sylar/src/config.cpp.i
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/config.cpp > CMakeFiles/sylar.dir/sylar/src/config.cpp.i
 
 CMakeFiles/sylar.dir/sylar/src/config.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar.dir/sylar/src/config.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/config.cpp -o CMakeFiles/sylar.dir/sylar/src/config.cpp.s
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/config.cpp -o CMakeFiles/sylar.dir/sylar/src/config.cpp.s
+
+CMakeFiles/sylar.dir/sylar/src/thread.cpp.o: CMakeFiles/sylar.dir/flags.make
+CMakeFiles/sylar.dir/sylar/src/thread.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/thread.cpp
+CMakeFiles/sylar.dir/sylar/src/thread.cpp.o: CMakeFiles/sylar.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sylar.dir/sylar/src/thread.cpp.o"
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sylar.dir/sylar/src/thread.cpp.o -MF CMakeFiles/sylar.dir/sylar/src/thread.cpp.o.d -o CMakeFiles/sylar.dir/sylar/src/thread.cpp.o -c /home/dragonborn/workspace/sylar/sylar/src/thread.cpp
+
+CMakeFiles/sylar.dir/sylar/src/thread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sylar.dir/sylar/src/thread.cpp.i"
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dragonborn/workspace/sylar/sylar/src/thread.cpp > CMakeFiles/sylar.dir/sylar/src/thread.cpp.i
+
+CMakeFiles/sylar.dir/sylar/src/thread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sylar.dir/sylar/src/thread.cpp.s"
+	/usr/local/gcc-13.2/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dragonborn/workspace/sylar/sylar/src/thread.cpp -o CMakeFiles/sylar.dir/sylar/src/thread.cpp.s
 
 # Object files for target sylar
 sylar_OBJECTS = \
 "CMakeFiles/sylar.dir/sylar/src/log.cpp.o" \
 "CMakeFiles/sylar.dir/sylar/src/util.cpp.o" \
-"CMakeFiles/sylar.dir/sylar/src/config.cpp.o"
+"CMakeFiles/sylar.dir/sylar/src/config.cpp.o" \
+"CMakeFiles/sylar.dir/sylar/src/thread.cpp.o"
 
 # External object files for target sylar
 sylar_EXTERNAL_OBJECTS =
@@ -126,9 +141,10 @@ sylar_EXTERNAL_OBJECTS =
 /home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/sylar/src/log.cpp.o
 /home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/sylar/src/util.cpp.o
 /home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/sylar/src/config.cpp.o
+/home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/sylar/src/thread.cpp.o
 /home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/build.make
 /home/dragonborn/workspace/sylar/lib/libsylar.so: CMakeFiles/sylar.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library /home/dragonborn/workspace/sylar/lib/libsylar.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dragonborn/workspace/sylar/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX shared library /home/dragonborn/workspace/sylar/lib/libsylar.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sylar.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -3,16 +3,18 @@
 
 #include "singleton.h"
 #include "util.h"
-#include<string>
-#include<stdint.h>
-#include<memory>
-#include<list>
-#include<vector>
-#include<sstream>
-#include<fstream>
-#include<stdarg.h>
-#include<map>
+#include "thread.h"
 
+#include <string>
+#include <stdint.h>
+#include <memory>
+#include <list>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include <stdarg.h>
+#include <map>
+#include <mutex>
 // 通过宏封装简化调用
 #define SYLAR_LOG_LEVEL(logger, level) \
     if(logger->getLevel() <= level) \
@@ -31,6 +33,7 @@ example:
 Output:
     User Alice logged in from 192.168.1.1 (attempt 3)
 */
+
 #define SYLAR_LOG_FMT_LEVEL(log, level, fmt, ...) \
     if(logger->getLevel() <= level) \
         sylar::LogEventWrap(sylar::LogEvent::ptr(new sylar::LogEvent(logger, level, __FILE__, __LINE__, 0, sylar::GetThreadId(),\
@@ -135,21 +138,24 @@ private:
 
 // 日志输出地
 class LogAppender {
+friend class Logger;
 public:
     using ptr = std::shared_ptr<LogAppender>;
     virtual ~LogAppender() {}
 
     virtual void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 
-    void setFormatter(LogFormatter::ptr val) {m_formatter = val;}
-    LogFormatter::ptr getFormatter() const {return m_formatter;}
+    void setFormatter(LogFormatter::ptr val);
+    LogFormatter::ptr getFormatter();
 
     LogLevel::Level getLevel() const { return m_level;}
     void setLevel(LogLevel::Level val) {m_level = val;}
 protected:
     LogLevel::Level m_level = LogLevel::DEBUG;
+    std::mutex m_mutex;
     LogFormatter::ptr m_formatter;
-    };
+    bool m_hasFormatter;
+};
     
 // 日志输出器
 class Logger : public std::enable_shared_from_this<Logger>{
@@ -172,9 +178,14 @@ public:
     void setLevel (LogLevel::Level val) { m_level = val;}
 
     const std::string& getName() const { return m_name;}
+
+    void setFormatter(LogFormatter::ptr val);
+    void setFormatter(const std::string& val);
+    LogFormatter::ptr getFormatter();
 private:
     std::string m_name;                         // 日志名称
     LogLevel::Level m_level;                    // 日志级别
+    std::mutex m_mutex;
     std::list<LogAppender::ptr> m_appenders;    // Appender集合
     LogFormatter::ptr m_formatter;
     Logger::ptr m_root;
@@ -215,6 +226,7 @@ public:
 
     Logger::ptr getRoot() const {return m_root;}
 private:
+    std::mutex m_mutex;
     std::map<std::string, Logger::ptr> m_loggers;
     Logger::ptr m_root;
 };

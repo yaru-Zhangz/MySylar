@@ -1,4 +1,4 @@
-2025-06-09 05:02:55	2850328247	0	[INFO]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:11	test macro
-2025-06-09 05:02:55	2850328247	0	[ERROR]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:12	test macro error
-2025-06-09 05:02:55	2850328247	0	[FATAL]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:13	test macro fatal
-2025-06-09 05:02:55	2850328247	0	[ERROR]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:15	test macro fmt error aa
+2025-06-13 04:56:46	454686	0	[INFO]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:11	test macro
+2025-06-13 04:56:46	454686	0	[ERROR]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:12	test macro error
+2025-06-13 04:56:46	454686	0	[FATAL]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:13	test macro fatal
+2025-06-13 04:56:46	454686	0	[ERROR]	[root]		/home/dragonborn/workspace/sylar/tests/test.cpp:15	test macro fmt error aa
