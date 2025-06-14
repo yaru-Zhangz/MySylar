@@ -129,10 +129,12 @@ public:
     };
 
     void init();
+    bool isError() const { return m_error;}
     const std::string getPattern() const { return m_pattern;}
 private:
     std::string m_pattern;
     std::vector<FormatItem::ptr> m_items;
+    bool m_error = false;
 };
 
 
@@ -152,7 +154,7 @@ public:
     void setLevel(LogLevel::Level val) {m_level = val;}
 protected:
     LogLevel::Level m_level = LogLevel::DEBUG;
-    std::mutex m_mutex;
+    sylar::CASLock m_mutex;
     LogFormatter::ptr m_formatter;
     bool m_hasFormatter;
 };
@@ -185,7 +187,7 @@ public:
 private:
     std::string m_name;                         // 日志名称
     LogLevel::Level m_level;                    // 日志级别
-    std::mutex m_mutex;
+    sylar::CASLock m_mutex;
     std::list<LogAppender::ptr> m_appenders;    // Appender集合
     LogFormatter::ptr m_formatter;
     Logger::ptr m_root;
@@ -198,8 +200,6 @@ public:
     using ptr = std::shared_ptr<StdoutLogAppender>;
 
     void log(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override;
-private:
-
 };
 
 // 输出到文件的Appender
@@ -215,6 +215,7 @@ public:
 private:
     std::string m_filename;
     std::ofstream m_filestream;
+    uint64_t m_lastTime = 0;
 };
 
 // 日志管理器：集中管理所有Logger实例
@@ -226,7 +227,7 @@ public:
 
     Logger::ptr getRoot() const {return m_root;}
 private:
-    std::mutex m_mutex;
+    sylar::CASLock m_mutex;
     std::map<std::string, Logger::ptr> m_loggers;
     Logger::ptr m_root;
 };

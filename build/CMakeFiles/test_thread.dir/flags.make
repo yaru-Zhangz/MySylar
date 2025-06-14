@@ -4,7 +4,7 @@
 # compile CXX with /usr/local/gcc-13.2/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/gcc-13.2/include/c++/13.2.0 -I/usr/local/gcc-13.2/include/c++/13.2.0/x86_64-pc-linux-gnu -I/home/dragonborn/workspace/sylar/. -I/usr/local/include/yaml-cpp -I/home/dragonborn/workspace/sylar/sylar/include
+CXX_INCLUDES = -I/home/dragonborn/workspace/sylar/. -I/usr/local/include/yaml-cpp -I/home/dragonborn/workspace/sylar/sylar/include
 
 CXX_FLAGS = -std=c++2a
 

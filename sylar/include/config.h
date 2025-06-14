@@ -5,7 +5,6 @@
 #include<sstream>
 #include<boost/lexical_cast.hpp>
 #include<yaml-cpp/yaml.h>
-#include "log.h"
 #include<vector>
 #include<map>
 #include<set>
@@ -13,6 +12,9 @@
 #include<unordered_set>
 #include<list>
 #include<functional>
+
+#include "log.h"
+#include "thread.h"
 
 namespace sylar {
 
@@ -251,7 +253,7 @@ public:
     
     std::string toString() override {
         try {
-            // return boost::lexical_cast<std::string>(m_val);
+            std::shared_lock<std::shared_mutex> lock(rw_mutex);
             return ToStr()(m_val);
         } catch (std::exception& e) {
                 SYLAR_LOG_ERROR(SYLAR_LOG_ROOT()) << "ConfigVar::toString exception" 
@@ -272,44 +274,57 @@ public:
             return false;
     }
 
-    const T getValue() const { return m_val;}
+    const T getValue() { 
+        std::shared_lock<std::shared_mutex> lck(rw_mutex);
+        return m_val;
+    }
     
     void setValue(const T& v) { 
-        if(v == m_val) {
-            return;
+        {
+            std::shared_lock<std::shared_mutex> lck(rw_mutex);
+            if(v == m_val) {
+                return;
+            }
+            for(auto& i : m_cbs) {
+                i.second(m_val, v);
+            }
         }
-        for(auto& i : m_cbs) {
-            i.second(m_val, v);
-        }
+        std::unique_lock<std::shared_mutex> lck(rw_mutex);
         m_val = v;
     }
     std::string getTypeName() const override {return typeid(T).name();}
 
-    void addListener(uint64_t key, on_change_cb cb) {
-        m_cbs[key] = cb;
+    uint64_t addListener(on_change_cb cb) {
+        static uint64_t s_fun_id = 0;
+        std::unique_lock<std::shared_mutex> lck(rw_mutex);
+        ++s_fun_id;
+        m_cbs[s_fun_id] = cb;
+        return s_fun_id;
     }
 
     void delListener(uint64_t key) {
+        std::unique_lock<std::shared_mutex> lck(rw_mutex);
         m_cbs.erase(key);
     }
 
     on_change_cb getListener(uint64_t key) 
     {
+        std::shared_lock<std::shared_mutex> lck(rw_mutex);
         auto it = m_cbs.find(key);
         return it == m_cbs.end() ? nullptr : it->second;
     }
 
     void clearListener() {
+        std::unique_lock<std::shared_mutex> lck(rw_mutex);
         m_cbs.clear();
     }
 private:
     T m_val;
-
+    std::shared_mutex rw_mutex;
     // 变更回调函数组
     std::map<uint64_t, on_change_cb> m_cbs;
 };
 
-//  
 class Config {
 public:
     using ConfigVarMap = std::map<std::string, ConfigVarBase::ptr>;
@@ -318,8 +333,9 @@ public:
     template<class T>
     static typename ConfigVar<T>::ptr Lookup(const std::string& name,
             const T& default_value, const std::string& description = "") {
-            auto it = s_datas.find(name);
-            if(it != s_datas.end()) {
+            std::unique_lock<std::shared_mutex> lock(GetMutex());
+            auto it = GetDatas().find(name);
+            if(it != GetDatas().end()) {
                 auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
                 if(tmp) {   // 存在同名配置项，返回现有配置项
                     SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "Lookup name = " << name << " exists";
@@ -339,15 +355,16 @@ public:
             }
             // 嵌套从属类型名称 前面用typename
             typename ConfigVar<T>::ptr v(new ConfigVar<T>(name, default_value, description));
-            s_datas[name] = v;
+            GetDatas()[name] = v;
             return v; 
             }
     
     // 查找配置项（不带默认值）
     template<class T>
     static typename ConfigVar<T>::ptr Lookup(const std::string& name) {
-        auto it = s_datas.find(name);
-        if(it == s_datas.end()) {
+        std::shared_lock<std::shared_mutex> lock(GetMutex());
+        auto it = GetDatas().find(name);
+        if(it == GetDatas().end()) {
             return nullptr;
         }
         return std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
@@ -355,8 +372,18 @@ public:
 
     static void LoadFromYaml(const YAML::Node& root);
     static ConfigVarBase::ptr LookupBase(const std::string& name);
+
+    static void Visit(std::function<void(ConfigVarBase::ptr)> cb);
 private:
-    static ConfigVarMap s_datas;
+   // 为什么不定义为全局静态变量？ 如果其他全局变量依赖 s_datas，可能因初始化顺序导致访问未初始化的对象。
+    static ConfigVarMap& GetDatas() {
+        static ConfigVarMap s_datas;
+        return s_datas;
+    }
+    static std::shared_mutex& GetMutex() {
+        static std::shared_mutex s_mutex;
+        return s_mutex;
+    }
 };
 
 

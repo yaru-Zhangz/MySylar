@@ -416,6 +416,10 @@ CMakeFiles/sylar.dir/sylar/src/config.cpp.o: /home/dragonborn/workspace/sylar/sy
   /usr/local/include/yaml-cpp/node/detail/impl.h \
   /usr/local/include/yaml-cpp/node/parse.h \
   /usr/local/include/yaml-cpp/node/emit.h \
+  /usr/local/gcc-13.2/include/c++/13.2.0/unordered_set \
+  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unordered_set.h \
+  /usr/local/gcc-13.2/include/c++/13.2.0/functional \
+  /usr/local/gcc-13.2/include/c++/13.2.0/bits/std_function.h \
   /home/dragonborn/workspace/sylar/sylar/include/log.h \
   /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
   /home/dragonborn/workspace/sylar/sylar/include/util.h \
@@ -434,17 +438,13 @@ CMakeFiles/sylar.dir/sylar/src/config.cpp.o: /home/dragonborn/workspace/sylar/sy
   /usr/include/semaphore.h \
   /usr/include/bits/semaphore.h \
   /home/dragonborn/workspace/sylar/sylar/include/thread.h \
-  /usr/local/gcc-13.2/include/c++/13.2.0/functional \
-  /usr/local/gcc-13.2/include/c++/13.2.0/bits/std_function.h \
   /usr/local/gcc-13.2/include/c++/13.2.0/shared_mutex \
   /usr/local/gcc-13.2/include/c++/13.2.0/fstream \
   /usr/local/gcc-13.2/include/c++/13.2.0/x86_64-pc-linux-gnu/bits/basic_file.h \
   /usr/local/gcc-13.2/include/c++/13.2.0/x86_64-pc-linux-gnu/bits/c++io.h \
   /usr/local/gcc-13.2/include/c++/13.2.0/bits/fstream.tcc \
   /usr/local/gcc-13.2/include/c++/13.2.0/mutex \
-  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unique_lock.h \
-  /usr/local/gcc-13.2/include/c++/13.2.0/unordered_set \
-  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unordered_set.h
+  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unique_lock.h
 
 CMakeFiles/sylar.dir/sylar/src/log.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/log.cpp \
   /usr/include/stdc-predef.h \
@@ -883,6 +883,8 @@ CMakeFiles/sylar.dir/sylar/src/log.cpp.o: /home/dragonborn/workspace/sylar/sylar
   /usr/local/include/yaml-cpp/node/detail/impl.h \
   /usr/local/include/yaml-cpp/node/parse.h \
   /usr/local/include/yaml-cpp/node/emit.h \
+  /usr/local/gcc-13.2/include/c++/13.2.0/unordered_set \
+  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unordered_set.h \
   /home/dragonborn/workspace/sylar/sylar/include/log.h \
   /home/dragonborn/workspace/sylar/sylar/include/singleton.h \
   /home/dragonborn/workspace/sylar/sylar/include/util.h \
@@ -908,8 +910,6 @@ CMakeFiles/sylar.dir/sylar/src/log.cpp.o: /home/dragonborn/workspace/sylar/sylar
   /usr/local/gcc-13.2/include/c++/13.2.0/bits/fstream.tcc \
   /usr/local/gcc-13.2/include/c++/13.2.0/mutex \
   /usr/local/gcc-13.2/include/c++/13.2.0/bits/unique_lock.h \
-  /usr/local/gcc-13.2/include/c++/13.2.0/unordered_set \
-  /usr/local/gcc-13.2/include/c++/13.2.0/bits/unordered_set.h \
   /home/dragonborn/workspace/sylar/sylar/include/log.h
 
 CMakeFiles/sylar.dir/sylar/src/thread.cpp.o: /home/dragonborn/workspace/sylar/sylar/src/thread.cpp \
@@ -1467,8 +1467,6 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 
 /usr/local/gcc-13.2/include/c++/13.2.0/shared_mutex:
 
-/usr/local/gcc-13.2/include/c++/13.2.0/functional:
-
 /home/dragonborn/workspace/sylar/sylar/include/thread.h:
 
 /usr/include/bits/semaphore.h:
@@ -1486,6 +1484,8 @@ CMakeFiles/sylar.dir/sylar/src/util.cpp.o: /home/dragonborn/workspace/sylar/syla
 /home/dragonborn/workspace/sylar/sylar/include/singleton.h:
 
 /home/dragonborn/workspace/sylar/sylar/include/log.h:
+
+/usr/local/gcc-13.2/include/c++/13.2.0/functional:
 
 /usr/local/include/yaml-cpp/node/emit.h:
 

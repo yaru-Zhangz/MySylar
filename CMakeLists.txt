@@ -16,9 +16,9 @@ set(CMAKE_SHARED_LINKER_FLAGS "-rdynamic")
 set(CMAKE_C_COMPILER "/usr/local/gcc-13.2/bin/gcc")
 set(CMAKE_CXX_COMPILER "/usr/local/gcc-13.2/bin/g++")
 
-include_directories(/usr/local/gcc-13.2/include/c++/13.2.0)
-include_directories(/usr/local/gcc-13.2/include/c++/13.2.0/x86_64-pc-linux-gnu)
-link_directories(/usr/local/gcc-13.2/lib64)
+# include_directories(/usr/local/gcc-13.2/include/c++/13.2.0)
+# include_directories(/usr/local/gcc-13.2/include/c++/13.2.0/x86_64-pc-linux-gnu)
+# link_directories(/usr/local/gcc-13.2/lib64)
 
 include_directories(.)
 include_directories(/usr/local/include/yaml-cpp)
@@ -42,19 +42,16 @@ set(LIB_LIB
     pthread
     yaml-cpp)
 
-add_executable(test tests/test.cpp)
-add_dependencies(test sylar)
-#force_redefine_file_macro_for_sources(test) #__FILE__
-target_link_libraries(test sylar ${LIB_LIB})
+add_executable(test_log tests/test_log.cpp)
+add_dependencies(test_log sylar)
+target_link_libraries(test_log sylar ${LIB_LIB})
 
 add_executable(test_config tests/test_config.cpp)
 add_dependencies(test_config sylar)
-#force_redefine_file_macro_for_sources(test_config) #__FILE__
 target_link_libraries(test_config sylar ${LIB_LIB})
 
 add_executable(test_thread tests/test_thread.cpp)
 add_dependencies(test_thread sylar)
-#force_redefine_file_macro_for_sources(test_thread) #__FILE__
 target_link_libraries(test_thread sylar ${LIB_LIB})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

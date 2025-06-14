@@ -58,7 +58,7 @@ std::stringstream& LogEventWrap::getSS() {
 }
 
 void LogAppender::setFormatter(LogFormatter::ptr val) {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     m_formatter = val;
     if(m_formatter) {
         m_hasFormatter = true;
@@ -68,7 +68,7 @@ void LogAppender::setFormatter(LogFormatter::ptr val) {
 }
 
 LogFormatter::ptr LogAppender::getFormatter() {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     return m_formatter;
 }
 
@@ -204,25 +204,37 @@ Logger::Logger(const std::string& name)
         m_formatter.reset(new LogFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%F%T[%p]%T[%c]%T%T%f:%l%T%m%n")); // 默认格式
 }
 
-// void Logger::setFormatter(LogFormatter::ptr val) {
-//     m_formatter = val;
+void Logger::setFormatter(LogFormatter::ptr val) {
+    sylar::CASLock::Lock lock(m_mutex);
+    m_formatter = val;
 
-//     for(auto& i : m_appenders) {
-//         if(!i->m_hasFormatter) {
-//             i->m_formatter = m_formatter;
-//         }
-//     }
-// }
+    for(auto& i : m_appenders) {
+        sylar::CASLock::Lock ll(m_mutex);
+        if(!i->m_hasFormatter) {
+            i->m_formatter = m_formatter;
+        }
+    }
+}
 
-// void Logger::setFormatter(const std::string& val) {
+void Logger::setFormatter(const std::string& val) {
+    std::cout << "---" << val << std::endl;
+    sylar::LogFormatter::ptr new_val(new sylar::LogFormatter(val));
+    if(new_val->isError()) {
+        std::cout << "Logger setFormatter name=" << m_name
+                  << " value=" << val << " invalid formatter"
+                  << std::endl;
+        return;
+    }
+    setFormatter(new_val);
+}
 
-// }
-// LogFormatter::ptr getFormatter() {
-
-// }
+LogFormatter::ptr Logger::getFormatter() {
+    sylar::CASLock::Lock ll(m_mutex);
+    return m_formatter;
+}
 
 void Logger::addAppender(LogAppender::ptr appender) {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     if(!appender->getFormatter()) {
         appender->setFormatter(m_formatter);
     }
@@ -230,10 +242,10 @@ void Logger::addAppender(LogAppender::ptr appender) {
 }
 
 void Logger::delAppender(LogAppender::ptr appender) {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     for(auto it = m_appenders.begin(); it != m_appenders.end(); it++)
     {
-        std::lock_guard<std::mutex> gua(appender->m_mutex);
+        sylar::CASLock::Lock lock(appender->m_mutex);
         if(*it == appender) {
             m_appenders.erase(it);
             break;
@@ -244,7 +256,7 @@ void Logger::delAppender(LogAppender::ptr appender) {
 void Logger::log(LogLevel::Level level, LogEvent::ptr event) {
     if(level >= m_level) {
         auto self = shared_from_this();
-        std::lock_guard<std::mutex> guard(m_mutex);
+        sylar::CASLock::Lock lock(m_mutex);
         if(!m_appenders.empty()) {
             for(auto& i : m_appenders) {
                 i->log(self, level, event);
@@ -277,23 +289,33 @@ FileLogAppender::FileLogAppender(const std::string& filename)
 }
 void FileLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) {
     if(level >= m_level) {
-        std::lock_guard<std::mutex> guard(m_mutex);
+        uint64_t now = time(0);
+        if(now != m_lastTime) {
+            reopen();
+            m_lastTime = now;
+        }
+        sylar::CASLock::Lock lock(m_mutex);
         m_filestream << m_formatter->format(logger, level, event);
     }
 }
 
 bool FileLogAppender::reopen() {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     if(m_filestream) {
         m_filestream.close();
     }
-    m_filestream.open(m_filename);
-    return !!m_filestream;
+    m_filestream.open(m_filename);  // 追加模式（文件不存在则创建）
+    if (!m_filestream) {
+        SYLAR_LOG_ERROR(SYLAR_LOG_ROOT()) << "Failed to open file: " << m_filename 
+                             << ", error: " << strerror(errno);
+        return false;
+    }
+    return true;
 }
 
 void StdoutLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) {
     if(level >= m_level) {
-        std::lock_guard<std::mutex> guard(m_mutex);
+        sylar::CASLock::Lock lock(m_mutex);
         m_formatter->format(std::cout, logger, level, event);
     }
 }
@@ -399,7 +421,7 @@ LoggerManager::LoggerManager() {
     init();
 }
 Logger::ptr LoggerManager::getLogger(const std::string& name) {
-    std::lock_guard<std::mutex> guard(m_mutex);
+    sylar::CASLock::Lock lock(m_mutex);
     auto it = m_loggers.find(name);
     if(it != m_loggers.end()) return it->second;
     Logger::ptr logger(new Logger(name));
