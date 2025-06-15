@@ -18,7 +18,11 @@
 
 namespace sylar {
 
-// 作为所有配置变量的基类，定义基本接口
+/*
+    "约定优于配置"的思路体现为所有的配置项在定义时都带一个的默认值
+*/
+
+// 配置项基类
 class ConfigVarBase {
 public:
     using ptr = std::shared_ptr<ConfigVarBase>;
@@ -40,7 +44,8 @@ protected:
     std::string m_description;
 };
 
-// From type To type
+// 类型转换模板类(F 源类型, T 目标类型)
+// 实现基本数据类型和std::string之间的相互转换
 template<class F, class T>
 class LexicalCast {
 public:
@@ -49,6 +54,7 @@ public:
     }
 };
 
+// 通过偏特化实现std::string和STL容器之间的转化
 // vector
 template<class T>
 class LexicalCast<std::string, std::vector<T>> {
@@ -235,20 +241,15 @@ public:
     }
 };
 
-// FromStr T operator() (const std::string&)
-// ToStr std::string operator() (const T&)
-
+// 模版化配置项
 template<class T, class FromStr = LexicalCast<std::string, T>, class ToStr = LexicalCast<T, std::string>>
 class ConfigVar : public ConfigVarBase
 {
 public:
     using ptr = std::shared_ptr<ConfigVar>;
     using  on_change_cb = std::function<void (const T& old_value, const T& new_value)>;
-    ConfigVar(const std::string& name
-            , const T& default_value
-            , const std::string& description = "")
-            :ConfigVarBase(name, description)
-            ,m_val(default_value) {
+    ConfigVar(const std::string& name, const T& default_value, const std::string& description = "")
+            :ConfigVarBase(name, description), m_val(default_value) {
     }
     
     std::string toString() override {
@@ -282,10 +283,11 @@ public:
     void setValue(const T& v) { 
         {
             std::shared_lock<std::shared_mutex> lck(rw_mutex);
-            if(v == m_val) {
+            if(v == m_val) {    // 值没有变化直接返回
                 return;
             }
-            for(auto& i : m_cbs) {
+            // 遍历回调映射表，执行回调
+            for(auto& i : m_cbs) {  
                 i.second(m_val, v);
             }
         }
@@ -325,22 +327,24 @@ private:
     std::map<uint64_t, on_change_cb> m_cbs;
 };
 
+// 配置管理器
 class Config {
 public:
+    // 通过多态统一管理，进行类型擦除
     using ConfigVarMap = std::map<std::string, ConfigVarBase::ptr>;
 
-    // 查找配置项（带默认值）
+    // 带默认值的查找
     template<class T>
     static typename ConfigVar<T>::ptr Lookup(const std::string& name,
             const T& default_value, const std::string& description = "") {
             std::unique_lock<std::shared_mutex> lock(GetMutex());
             auto it = GetDatas().find(name);
-            if(it != GetDatas().end()) {
-                auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
-                if(tmp) {   // 存在同名配置项，返回现有配置项
+            if(it != GetDatas().end()) { // 
+                auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second); // ​​将基类指针ConfigVarBase::ptr安全地向下转型为派生类指针 ConfigVar<T>::ptr​​, dynamic_cast 仅支持裸指针
+                if(tmp) {   // 如果存在且类型匹配，返回现有配置项。
                     SYLAR_LOG_INFO(SYLAR_LOG_ROOT()) << "Lookup name = " << name << " exists";
                     return tmp;
-                } else {
+                } else {    // 如果存在但类型不匹配，返回 nullptr 并记录错误日志。
                     SYLAR_LOG_ERROR(SYLAR_LOG_ROOT()) << "Lookup name = " << name << " exists but type not " 
                                 << typeid(T).name() << " real_type=" << it->second->getTypeName()
                                 << " " << it->second->toString();
@@ -353,13 +357,14 @@ public:
                 SYLAR_LOG_ERROR(SYLAR_LOG_ROOT()) << "Lookup name invalid " << name;
                 throw std::invalid_argument(name);
             }
-            // 嵌套从属类型名称 前面用typename
+            // 创建新配置项并注册到全局 ConfigVarMap
+            // 嵌套从属类型名称, 依赖模板参数T的名称， 前面用typename, 用于告诉编译器 ​​ConfigVar<T>::ptr 是一个类型名​​，而不是静态成员变量或其他名称。
             typename ConfigVar<T>::ptr v(new ConfigVar<T>(name, default_value, description));
             GetDatas()[name] = v;
             return v; 
             }
     
-    // 查找配置项（不带默认值）
+    // 不带默认值的查找
     template<class T>
     static typename ConfigVar<T>::ptr Lookup(const std::string& name) {
         std::shared_lock<std::shared_mutex> lock(GetMutex());
@@ -375,7 +380,7 @@ public:
 
     static void Visit(std::function<void(ConfigVarBase::ptr)> cb);
 private:
-   // 为什么不定义为全局静态变量？ 如果其他全局变量依赖 s_datas，可能因初始化顺序导致访问未初始化的对象。
+   // 使用静态局部变量 GetDatas() 和 GetMutex() 保证线程安全的延迟初始化
     static ConfigVarMap& GetDatas() {
         static ConfigVarMap s_datas;
         return s_datas;

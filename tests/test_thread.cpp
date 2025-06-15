@@ -19,13 +19,13 @@ void func1() {
 }
 
 void func2() {
-    for(int i = 0; i < 10000; i++)
+    for(int i = 0; i < 1000; i++)
         SYLAR_LOG_INFO(g_logger) << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
    
 }
 
 void func3() {
-    for(int i = 0; i < 10000; i++)
+    for(int i = 0; i < 1000; i++)
         SYLAR_LOG_INFO(g_logger) << "=======================================";
 }
 
@@ -44,6 +44,8 @@ int main(int argc, char** argv) {
         thrs[i]->join();
     }
 
-    // SYLAR_LOG_INFO(g_logger) << "thread test end";
-    // SYLAR_LOG_INFO(g_logger) << "count = " << count;
+    SYLAR_LOG_INFO(g_logger) << "thread test end";
+    SYLAR_LOG_INFO(g_logger) << "count = " << count;
+
+    return 0;
 }

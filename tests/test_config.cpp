@@ -30,11 +30,11 @@ sylar::ConfigVar<std::unordered_map<std::string,int>>::ptr g_umap_int_value_conf
     sylar::Config::Lookup("system.int_umap", std::unordered_map<std::string, int>{{"hello",1},{"word",2}}, "system int umap");
 /*
 enum value { 
-Undefined  = 0, 
-Null = 1, 
-Scalar = 2,   // 标量
-Sequence = 3, // 数组
-Map = 4 };    // 字典
+    Undefined  = 0, 
+    Null = 1, 
+    Scalar = 2,   // 标量
+    Sequence = 3, // 数组
+    Map = 4 };    // 字典
 */
 void print_yaml(const YAML::Node& node, int level) {
     if(node.IsScalar()) {       // 标量值
