@@ -2,5 +2,6 @@
 /home/dragonborn/workspace/sylar/build/CMakeFiles/test_log.dir
 /home/dragonborn/workspace/sylar/build/CMakeFiles/test_config.dir
 /home/dragonborn/workspace/sylar/build/CMakeFiles/test_thread.dir
+/home/dragonborn/workspace/sylar/build/CMakeFiles/test_util.dir
 /home/dragonborn/workspace/sylar/build/CMakeFiles/edit_cache.dir
 /home/dragonborn/workspace/sylar/build/CMakeFiles/rebuild_cache.dir

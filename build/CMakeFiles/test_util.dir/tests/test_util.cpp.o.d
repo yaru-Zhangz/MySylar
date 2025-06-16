@@ -1,5 +1,5 @@
-CMakeFiles/test_thread.dir/tests/test_thread.cpp.o: \
- /home/dragonborn/workspace/sylar/tests/test_thread.cpp \
+CMakeFiles/test_util.dir/tests/test_util.cpp.o: \
+ /home/dragonborn/workspace/sylar/tests/test_util.cpp \
  /usr/include/stdc-predef.h \
  /home/dragonborn/workspace/sylar/tests/../sylar/include/sylar.h \
  /home/dragonborn/workspace/sylar/tests/../sylar/include/log.h \
