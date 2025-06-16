@@ -83,26 +83,34 @@ void Fiber::reset(std::function<void()> cb) {
     m_ctx.uc_stack.ss_size = m_stacksize;
 
     makecontext(&m_ctx, &Fiber::MainFunc, 0);
+    m_state = INIT;
 }
+
 // 切换到当前协程执行
 void Fiber::swapIn() {
-
+    SetThis(this);
+    SYLAR_ASSERT()
 }
+
 // 切换到后台执行
 void Fiber::swapOut() {
 
 }
+
 void Fiber::SetThis(Fiber* f) {
 
 }
+
 // 返回当前协程
 Fiber::ptr Fiber::GetThis() {
 
 }
+
 // 协程切换到后台，并且设置状态为Ready状态
 void Fiber::YieldToReady() {
 
 }
+
 // 协程切换到后台，并且设置状态为Hold状态
 void Fiber::YieldToHold() {
 
