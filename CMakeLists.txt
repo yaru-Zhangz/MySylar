@@ -28,7 +28,8 @@ set(LIB_SRC
     sylar/src/log.cpp
     sylar/src/util.cpp
     sylar/src/config.cpp
-    sylar/src/thread.cpp)
+    sylar/src/thread.cpp
+    sylar/src/fiber.cpp)
 
 add_library(sylar SHARED ${LIB_SRC})
 target_include_directories(sylar PUBLIC ${PROJECT_SOURCE_DIR}/sylar/include)
@@ -57,6 +58,10 @@ target_link_libraries(test_thread sylar ${LIB_LIB})
 add_executable(test_util tests/test_util.cpp)
 add_dependencies(test_util sylar)
 target_link_libraries(test_util sylar ${LIB_LIB})
+
+add_executable(test_fiber tests/test_fiber.cpp)
+add_dependencies(test_fiber sylar)
+target_link_libraries(test_fiber sylar ${LIB_LIB})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

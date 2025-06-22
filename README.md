@@ -31,6 +31,31 @@
   
 ## 3、协程模块
 #### 模块介绍
+协程库封装
+
+定义协程接口
+
+ucontext_t
+```
+Fiber::GetThis()
+Thread->main_fiber <------------> sub_fiber
+            ^
+            |
+        sub_fiber
+```
+协程调度模块scheduler
+```
+        1 - N            1 - M
+scheduler -->  thread  --> fiber
+1. 线程池, 分配一组线程
+2. 协程调度器，将协程指定到相应的线程上去执行
+
+N:M
+m_threads
+<function<void>()> fiber, threadId m_fibers
+
+
+```
 
 #### 相关的类
 ## 4、
