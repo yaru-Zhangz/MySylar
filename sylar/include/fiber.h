@@ -6,7 +6,10 @@
 
 namespace sylar {
 
+class Scheduler;
+
 class Fiber : public std::enable_shared_from_this<Fiber> {
+friend class Scheduler;
 public:
     using ptr = std::shared_ptr<Fiber>;
 
@@ -19,24 +22,31 @@ public:
         EXCEP   // 发生异常
     };
 private:
-    Fiber();
+    // 主协程构造函数，用于创建线程的主协程，不分配栈空间，直接使用线程栈，只能由GetThis方法调用
+    Fiber();    
     
 public:
-    Fiber(std::function<void()> cb, size_t stacksize = 0);
+    // 子协程构造函数 (协程执行的函数， 协程栈的大小, 是否在MainFiber上调度)
+    Fiber(std::function<void()> cb, size_t stacksize = 0, bool use_caller = false);
     ~Fiber();
     
-    void reset(std::function<void()> cb);   // 重置协程函数，并重置状态
+    void reset(std::function<void()> cb);   // 重置协程函数，并设置状态
     void swapIn();      // 切换到当前协程执行
     void swapOut();     // 切换到后台执行
 
+    void call();        // 将当前线程切换到执行状态，且执行的为当前线程的主协程
+    void back();        // 将当前线程切换到后台，执行的为该线程的主协程
+
     uint64_t getId() const {return m_id;}
+    State getState() const { return m_state;}
 public:
-    static void SetThis(Fiber* f);      // 设置当前正在执行的协程
+    static void SetThis(Fiber* f);      // 设置当前线程正在执行的协程
     static Fiber::ptr GetThis();        // 返回当前协程
     static void YieldToReady();         // 协程切换到后台，并且设置状态为Ready状态
     static void YieldToHold();          // 协程切换到后台，并且设置状态为Hold状态
     static uint64_t TotalFibers();      // 获取总协程数
-    static void MainFunc();             // 协程的主执行函数
+    static void MainFunc();             // 协程的主执行函数，执行完成返回线程主协程
+    static void CallerMainFunc();       // 协程执行函数，执行完成返回到线程调度协程
     static uint64_t GetFiberId();
 private:
     uint64_t m_id = 0;          // 协程id

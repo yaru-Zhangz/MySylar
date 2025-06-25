@@ -8,5 +8,6 @@
 #include "thread.h"
 #include "singleton.h"
 #include "fiber.h"
+#include "scheduler.h"
 
 #endif

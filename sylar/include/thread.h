@@ -6,6 +6,8 @@
 #include <memory>
 #include <shared_mutex>
 #include <semaphore>
+
+#include "noncopyable.h"
 namespace sylar {
 
 // 利用RAII特性在构造时加锁，析构时解锁
@@ -29,7 +31,7 @@ private:
 };
 
 // 封装自旋锁
-class Spinlock {
+class Spinlock : Noncopyable {
 public:
     using Lock = ScopedLockImpl<Spinlock>;
     Spinlock() {
@@ -52,7 +54,7 @@ private:
 };
 
 // 封装基于原子操作的自旋锁: 当锁的竞争事件较短时，性能优于传统的互斥锁
-class CASLock {
+class CASLock : Noncopyable {
 public:
     using Lock = ScopedLockImpl<CASLock>;
 
