@@ -14,17 +14,15 @@ void test_fiber() {
 
 int main(int argc, char** argv) {
     SYLAR_LOG_INFO(g_logger) << "main";
-    sylar::Scheduler sc(3, false, "test");  // 1. 创建调度器，指定3个工作线程，不适用调用线程作为工作线程
+    sylar::Scheduler sc(3, false, "test");  // 1. 创建调度器，指定3个工作线程，不使用调用线程作为工作线程
     sc.start();                             // 2. 启动调度器，创建3个工作线程，每个线程执行run()方法
     sleep(2);
     SYLAR_LOG_INFO(g_logger) << "schedule"; 
-    sc.schedule(&test_fiber);               // 3. 将test_fiber函数作为任务加入调度队列，其中一个工作协程从队列中去除病执行这个任务
+    sc.schedule(&test_fiber);               // 3. 将test_fiber函数作为任务加入调度队列，其中一个工作协程从队列中去除并执行这个任务
     sc.stop();                              // 4. 等待所有任务完成(包括正在执行的test_fiber及其后续调度),停止所有工作线程
     SYLAR_LOG_INFO(g_logger) << "over";
     return 0;
 }
 
-/*
 
-
-*/
+ 

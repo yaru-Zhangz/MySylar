@@ -30,7 +30,8 @@ set(LIB_SRC
     sylar/src/config.cpp
     sylar/src/thread.cpp
     sylar/src/fiber.cpp
-    sylar/src/scheduler.cpp)
+    sylar/src/scheduler.cpp
+    sylar/src/iomanager.cpp)
 
 add_library(sylar SHARED ${LIB_SRC})
 target_include_directories(sylar PUBLIC ${PROJECT_SOURCE_DIR}/sylar/include)

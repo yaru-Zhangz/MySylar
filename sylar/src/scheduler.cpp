@@ -64,7 +64,7 @@ void Scheduler::start() {
             m_threadIds.push_back(m_threads[i]->getId());
         }
     }
-    if(m_rootFiber) {   // 调用线程切换成工作线程开始执行任务，主线程也开始执行run
+    if(m_rootFiber) {   // 调用线程作为工作线程，调用线程切换成工作线程开始执行任务，主线程也开始执行run
         m_rootFiber->swapIn();
     }
 }
@@ -133,7 +133,6 @@ void Scheduler::setThis() {
 
 // 工作线程的主协程在run里面通过GetThis创建
 void Scheduler::run() {
-    // ==================== 初始化阶段 ====================
     setThis(); // 设置当前线程的调度器实例
     
     // 工作线程需要初始化自己的主协程
@@ -142,8 +141,8 @@ void Scheduler::run() {
     }
 
     // 准备空闲协程和回调协程容器
-    Fiber::ptr idle_fiber(new Fiber(std::bind(&Scheduler::idle, this)));
-    Fiber::ptr cb_fiber;
+    Fiber::ptr idle_fiber(new Fiber(std::bind(&Scheduler::idle, this)));    // 当任务队列为空时，调度器线程会切换到这个协程
+    Fiber::ptr cb_fiber;    
 
     // ==================== 主调度循环 ====================
     while (true) {
@@ -218,8 +217,7 @@ void Scheduler::run() {
                 if (cb_fiber->getState() == Fiber::READY) {
                     schedule(cb_fiber);
                     cb_fiber.reset();
-                } else if (cb_fiber->getState() == Fiber::EXCEP ||
-                          cb_fiber->getState() == Fiber::TERM) {
+                } else if (cb_fiber->getState() == Fiber::EXCEP || cb_fiber->getState() == Fiber::TERM) {
                     cb_fiber->reset(nullptr);
                 } else {
                     cb_fiber->m_state = Fiber::HOLD;
@@ -230,7 +228,7 @@ void Scheduler::run() {
         } 
         // ----------- 空闲处理阶段 -----------
         else {
-            if (is_active) {
+            if (is_active) {    // 当前线程成功从队列获取并执行了任务，
                 --m_activeThreadCount;
                 continue;
             }
@@ -246,8 +244,7 @@ void Scheduler::run() {
             --m_idleThreadCount;
 
             // 维护空闲协程状态
-            if (idle_fiber->getState() != Fiber::TERM &&
-                idle_fiber->getState() != Fiber::EXCEP) {
+            if (idle_fiber->getState() != Fiber::TERM && idle_fiber->getState() != Fiber::EXCEP) {
                 idle_fiber->m_state = Fiber::HOLD;
             }
         }
