@@ -13,6 +13,9 @@ namespace sylar {
 
     void Backtrace(std::vector<std::string>& bt, int size, int skip); 
     std::string BacktraceToString(int size = 64, int skip = 2, const std::string& prefix = "");
+
+    uint64_t GetCurrentMS();
+    uint64_t GetCurrentUS();
 }
 
 #endif

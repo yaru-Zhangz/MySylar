@@ -12,8 +12,8 @@ public:
     
     enum Event {
         NONE = 0x0,
-        READ = 0x1,
-        WRITE = 0x2
+        READ = 0x1, // EPOLLIN
+        WRITE = 0x4 // EPOLLOUT
     };
 
 private:    
@@ -55,7 +55,7 @@ protected:
     void contextResize(size_t size);
 private:
     int m_epfd = 0;
-    int m_tickleFds[2];
+    int m_tickleFd;
 
     std::atomic<size_t> m_pendingEventCount = {0};
     std::shared_mutex m_mutex;

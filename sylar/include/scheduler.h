@@ -55,6 +55,7 @@ public:
             std::lock_guard<std::mutex> lock(m_mutex);
             while(begin != end) {
                 need_tickle = schedulerNoLock(&*begin, -1) || need_tickle;
+                ++begin;
             }
         }
         if(need_tickle) {
@@ -71,7 +72,7 @@ protected:
     virtual void idle();
 
     void setThis();
-    bool hasIdleThread() {return m_idleThreadCount > 0;}
+    bool hasIdleThreads() {return m_idleThreadCount > 0;}
 private:
 
     // 把任务封装为FiberAndThread添加到队列，返回是否需要唤醒工作线程

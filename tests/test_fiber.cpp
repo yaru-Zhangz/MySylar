@@ -1,5 +1,5 @@
 #include "../sylar/include/sylar.h"
-
+#include <iostream>
 sylar::Logger::ptr g_logger = SYLAR_LOG_ROOT();
 
 void run_in_fiber() {

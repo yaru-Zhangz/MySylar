@@ -7,9 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)  # 禁用 GNU 扩展，确保标准 C++20
 
 # 分开调试和发布配置
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wno-deprecated -Wno-unused-function")
+# set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wno-deprecated -Wno-unused-function")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-
+# 强制设置 Debug 标志（覆盖其他可能的设置）
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g -Wall -Wno-deprecated -Wno-unused-function")
 # 仅对动态库添加 -rdynamic（如果需要）
 set(CMAKE_SHARED_LINKER_FLAGS "-rdynamic")
 # set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -O0 -g -std=c++20 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-force_redefine")
@@ -31,7 +32,8 @@ set(LIB_SRC
     sylar/src/thread.cpp
     sylar/src/fiber.cpp
     sylar/src/scheduler.cpp
-    sylar/src/iomanager.cpp)
+    sylar/src/iomanager.cpp
+    )
 
 add_library(sylar SHARED ${LIB_SRC})
 target_include_directories(sylar PUBLIC ${PROJECT_SOURCE_DIR}/sylar/include)
@@ -68,6 +70,10 @@ target_link_libraries(test_fiber sylar ${LIB_LIB})
 add_executable(test_scheduler tests/test_scheduler.cpp)
 add_dependencies(test_scheduler sylar)
 target_link_libraries(test_scheduler sylar ${LIB_LIB})
+
+add_executable(test_iomanager tests/test_iomanager.cpp)
+add_dependencies(test_iomanager sylar)
+target_link_libraries(test_iomanager sylar ${LIB_LIB})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

@@ -2,6 +2,7 @@
 #include "macro.h"
 #include "log.h"
 #include <sys/epoll.h>
+#include <sys/eventfd.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -90,32 +91,33 @@ void IOManager::FdContext::triggerEvent(Event event) {
 
 IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
     :Scheduler(threads, use_caller, name) {
-        m_epfd = epoll_create(1);
+        m_epfd = epoll_create(5000);
         SYLAR_ASSERT(m_epfd > 0);
 
-        int rt = pipe(m_tickleFds);
-        SYLAR_ASSERT(rt);
+        // 创建非阻塞的eventfd
+        m_tickleFd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
+        SYLAR_ASSERT(m_tickleFd != -1);
 
         epoll_event event;
         memset(&event, 0, sizeof(epoll_event));
-        event.events = EPOLLIN | EPOLLOUT;
-        event.data.fd = m_tickleFds[0];
+        event.events = EPOLLIN | EPOLLET;
+        event.data.fd = m_tickleFd;
 
-        rt = fcntl(m_tickleFds[0], F_SETFL, O_NONBLOCK);
-        SYLAR_ASSERT(rt);
+        int rt = fcntl(m_tickleFd, F_SETFL, O_NONBLOCK);
+        SYLAR_ASSERT(!rt);
 
-        rt = epoll_ctl(m_epfd, EPOLL_CTL_ADD, m_tickleFds[0], &event);
-        SYLAR_ASSERT(rt);
+        rt = epoll_ctl(m_epfd, EPOLL_CTL_ADD, m_tickleFd, &event);
+        SYLAR_ASSERT(!rt);
 
         contextResize(32);
         start();
 }
+
 IOManager::~IOManager() {
     stop();
     close(m_epfd);
-    close(m_tickleFds[0]);
-    close(m_tickleFds[1]);
-
+    close(m_tickleFd);
+   
     for(size_t i = 0; i < m_fdContexts.size(); i++) {
         if(m_fdContexts[i]) {
             delete m_fdContexts[i];
@@ -133,24 +135,25 @@ void IOManager::contextResize(size_t size) {
         }
     }
 }
+
 // 1 success, 0 retry, -1 error
 int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     FdContext* fd_ctx = nullptr;
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::shared_lock<std::shared_mutex> read_lock(m_mutex);
     if((int)m_fdContexts.size() > fd) {
         fd_ctx = m_fdContexts[fd];
-        m_mutex.unlock();
+        read_lock.unlock();
     } else {
-        m_mutex.unlock_shared();
-        std::unique_lock<std::shared_mutex> lock2(m_mutex);
-        contextResize(m_fdContexts.size() * 1.5);
+        read_lock.unlock();
+        std::unique_lock<std::shared_mutex> write_lock(m_mutex);
+        contextResize(fd * 1.5);
         fd_ctx = m_fdContexts[fd];
     }
-    std::lock_guard<std::mutex> lock3(fd_ctx->mutex);
+    std::lock_guard<std::mutex> fd_lock(fd_ctx->mutex); 
     if(fd_ctx->events & event) {
         SYLAR_LOG_ERROR(g_logger) << "addEvent assert fd = " << fd
-                    << " event=" << event
-                    << " fd_ctx.event=" << fd_ctx->events;
+                    << " event=" << (EPOLL_EVENTS)event
+                    << " fd_ctx.event=" << (EPOLL_EVENTS)fd_ctx->events;
         SYLAR_ASSERT(!(fd_ctx->events & event));
     }
 
@@ -162,8 +165,9 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << "," << fd << "," << epevent.events << "):"
-            << rt << " (" << errno << ") (" << strerror(errno) << ")";
+            << (EpollCtlOp)op << "," << fd << "," << (EPOLL_EVENTS)epevent.events << "):"
+            << rt << " (" << errno << ") (" << strerror(errno) << ") fd_ctx->events="
+            << (EPOLL_EVENTS)fd_ctx->events;
         return -1; 
     }
 
@@ -176,18 +180,18 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
         event_ctx.cb.swap(cb);
     } else {
         event_ctx.fiber = Fiber::GetThis();
-        SYLAR_ASSERT(event_ctx.fiber->getState() == Fiber::EXEC);
+        SYLAR_ASSERT2(event_ctx.fiber->getState() == Fiber::EXEC, "state=" << event_ctx.fiber->getState());
     }
     return 0;
 }
 
 bool IOManager::delEvent(int fd, Event event) {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::shared_lock<std::shared_mutex> read_lock(m_mutex);
     if((int)m_fdContexts.size() <= fd) {
         return false;
     }
     FdContext* fd_ctx = m_fdContexts[fd];
-    m_mutex.unlock_shared();
+    read_lock.unlock();
     std::lock_guard<std::mutex> lock2(fd_ctx->mutex);
     if(!(fd_ctx->events & event)) {
         return false;
@@ -202,7 +206,7 @@ bool IOManager::delEvent(int fd, Event event) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << "," << fd << "," << epevent.events << "):"
+            << (EpollCtlOp)op << "," << fd << "," << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false; 
     }
@@ -214,13 +218,13 @@ bool IOManager::delEvent(int fd, Event event) {
 }
 
 bool IOManager::cancelEvent(int fd, Event event) {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::shared_lock<std::shared_mutex> read_lock(m_mutex);
     if((int)m_fdContexts.size() <= fd) {
         return false;
     }
     FdContext* fd_ctx = m_fdContexts[fd];
-    m_mutex.unlock_shared();
-    std::lock_guard<std::mutex> lock2(fd_ctx->mutex);
+    read_lock.unlock();
+    std::lock_guard<std::mutex> fd_lock(fd_ctx->mutex); 
     if(!(fd_ctx->events & event)) {
         return false;
     }
@@ -234,7 +238,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << "," << fd << "," << epevent.events << "):"
+            << (EpollCtlOp)op << "," << fd << "," << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false; 
     }
@@ -244,12 +248,12 @@ bool IOManager::cancelEvent(int fd, Event event) {
 }
 
 bool IOManager::cancelAll(int fd) {
-    std::lock_guard<std::shared_mutex> lock(m_mutex);
+    std::shared_lock<std::shared_mutex> read_lock(m_mutex);
     if((int)m_fdContexts.size() <= fd) {
         return false;
     }
     FdContext* fd_ctx = m_fdContexts[fd];
-    m_mutex.unlock_shared();
+    read_lock.unlock();
     std::lock_guard<std::mutex> lock2(fd_ctx->mutex);
     if(!fd_ctx->events) {
         return false;
@@ -263,7 +267,7 @@ bool IOManager::cancelAll(int fd) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << "," << fd << "," << epevent.events << "):"
+            << (EpollCtlOp)op << "," << fd << "," << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false; 
     }
@@ -282,13 +286,103 @@ bool IOManager::cancelAll(int fd) {
 IOManager* IOManager::GetThis() {
     return dynamic_cast<IOManager*>(Scheduler::GetThis());
 }
+
 void IOManager::tickle() {
-
+    if (!hasIdleThreads()) return;
+    uint64_t value = 1;
+    int rt = write(m_tickleFd, &value, sizeof(value));
+    SYLAR_ASSERT(rt == sizeof(value));
 }
-void IOManager::stopping() {
 
+bool IOManager::stopping() {
+    return Scheduler::stopping() && m_pendingEventCount == 0;
 }
+
 void IOManager::idle() {
-    
+    SYLAR_LOG_DEBUG(g_logger) << "idle";
+    const uint64_t MAX_EVNETS = 256;
+    epoll_event* events = new epoll_event[MAX_EVNETS]();
+    std::shared_ptr<epoll_event> shared_events(events, [](epoll_event* ptr){
+        delete[] ptr;
+    });
+    while(true) {
+        if(stopping()) {
+            SYLAR_LOG_INFO(g_logger) << "name=" << getName() << " idle stopping exit";
+            break;
+        }
+        int rt = 0;
+        do {
+            static const int MAX_TIMEOUT = 3000;
+            rt = epoll_wait(m_epfd, events, MAX_EVNETS, MAX_TIMEOUT);
+
+            if(rt < 0 && errno == EINTR) {
+            } else {
+                break;
+            }
+        } while(true);
+        std::vector<std::function<void()> > cbs;
+        // listExpiredCb(cbs);
+        if(!cbs.empty()) {
+            //SYLAR_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
+            schedule(cbs.begin(), cbs.end());
+            cbs.clear();
+        }
+        for(int i = 0; i < rt; i++) {
+            epoll_event& event = events[i];
+            if(event.data.fd == m_tickleFd) {
+                uint64_t dummy = 1;
+                int err = read(m_tickleFd, &dummy, sizeof(dummy));
+                SYLAR_ASSERT(err == sizeof(dummy));
+                continue;
+            }
+            FdContext* fd_ctx = (FdContext*)event.data.ptr;
+            std::lock_guard<std::mutex> lock(fd_ctx->mutex);
+            if(event.events & (EPOLLERR | EPOLLHUP)) {
+                event.events |= (EPOLLIN | EPOLLOUT) & fd_ctx->events;
+            }
+            int real_events = NONE;
+            if(event.events & EPOLLIN) {
+                real_events |= READ;
+            }
+            if(event.events & EPOLLOUT) {
+                real_events |= WRITE;
+            }
+
+            if((fd_ctx->events & real_events) == NONE) {
+                continue;
+            }
+
+            int left_events = (fd_ctx->events & ~real_events);
+            int op = left_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
+            event.events = EPOLLET | left_events;
+
+            int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
+            if(rt2) {
+                SYLAR_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+                    << (EpollCtlOp)op << "," << fd_ctx->fd << "," << (EPOLL_EVENTS)event.events << "):"
+                    << rt2 << " (" << errno << ") (" << strerror(errno) << ")";
+                continue;
+            }
+
+            if(real_events & READ) {
+                fd_ctx->triggerEvent(READ);
+                --m_pendingEventCount;
+            }
+            if(real_events & WRITE) {
+                fd_ctx->triggerEvent(WRITE);
+                --m_pendingEventCount;
+            }
+        }
+        Fiber::ptr cur = Fiber::GetThis();
+        auto raw_ptr = cur.get();
+        cur.reset();
+
+        raw_ptr->swapOut();
+    }
 }
+
+// void IOManager::onTimerInsertedAtFront() {
+//     tickle();
+// }
+
 }

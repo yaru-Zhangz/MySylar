@@ -16,7 +16,7 @@ static std::atomic<uint64_t> s_fiber_count{0};      // 统计当前的协程数
 static thread_local Fiber* t_fiber = nullptr;               // 指向当前正在执行的协程
 static thread_local Fiber::ptr t_threadFiber = nullptr;     // 保存线程的主协程
 
-static ConfigVar<uint32_t>::ptr g_fiber_stack_size = Config::Lookup<uint32_t>("fiber.stack_size", 1024*1024, "fiber stack size");
+static ConfigVar<uint32_t>::ptr g_fiber_stack_size = Config::Lookup<uint32_t>("fiber.stack_size", 128*1024, "fiber stack size");
 
 // 栈分配器，用malloc和free管理协程栈内存
 class MallocStackAllocator {
@@ -48,7 +48,7 @@ Fiber::Fiber() {
     }
     ++s_fiber_count;
 
-    SYLAR_LOG_DEBUG(g_logger) << "Fiber::main";
+    SYLAR_LOG_DEBUG(g_logger) << "Fiber::Fiber main";
 }
 
 Fiber::Fiber(std::function<void()> cb, size_t stacksize, bool use_caller) 
@@ -114,7 +114,6 @@ void Fiber::call() {
 
 void Fiber::back() {
     SetThis(t_threadFiber.get());
-    m_state = EXEC;
     if(swapcontext(&m_ctx, &t_threadFiber->m_ctx)) {
         SYLAR_ASSERT2(false, "swapcontext");
     }
@@ -128,6 +127,7 @@ void Fiber::swapIn() {
         保存当前CPU寄存器到第一个参数，从第二个参数加载之前保存的寄存器值，跳转到目标上下文继续执行
     */
     if(swapcontext(&Scheduler::GetMainFiber()->m_ctx, &m_ctx)) {    // 恢复保存的上下文，保存当前上下文到第一个参数，恢复第二参数执行的上下文
+
         SYLAR_ASSERT2(false, "swapcontext");
     }
 }
@@ -135,7 +135,6 @@ void Fiber::swapIn() {
 // 切换到后台执行
 void Fiber::swapOut() {
     SetThis(Scheduler::GetMainFiber());
-
     if(swapcontext(&m_ctx, &Scheduler::GetMainFiber()->m_ctx)) {
         SYLAR_ASSERT2(false, "swapcontext");
     }
@@ -143,7 +142,7 @@ void Fiber::swapOut() {
 
 // 设置当前协程
 void Fiber::SetThis(Fiber* f) {
-    t_fiber= f;
+    t_fiber = f;
 }
 
 // 获取当前协程
@@ -170,7 +169,6 @@ void Fiber::YieldToReady() {
 void Fiber::YieldToHold() {
     Fiber::ptr cur = GetThis();
     SYLAR_ASSERT(cur->m_state == EXEC);
-    cur->m_state = HOLD;
     cur->swapOut();
 }
 // 总协程数

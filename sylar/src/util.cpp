@@ -3,6 +3,7 @@
 #include "fiber.h"
 #include <execinfo.h>
 #include <sys/syscall.h>
+#include<sys/time.h>
 #include <unistd.h>
 namespace sylar {
 
@@ -44,5 +45,16 @@ sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
             ss << prefix << bt[i] << std::endl;
         }
         return ss.str();
+    }
+
+    uint64_t GetCurrentMS() {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        return tv.tv_sec * 1000ul + tv.tv_usec / 1000;
+    }
+    uint64_t GetCurrentUS() {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        return tv.tv_sec * 1000 * 1000ul + tv.tv_usec;
     }
 }

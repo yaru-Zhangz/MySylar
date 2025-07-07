@@ -14,7 +14,7 @@ void test_fiber() {
 
 int main(int argc, char** argv) {
     SYLAR_LOG_INFO(g_logger) << "main";
-    sylar::Scheduler sc(3, false, "test");  // 1. 创建调度器，指定3个工作线程，不使用调用线程作为工作线程
+    sylar::Scheduler sc(3, true, "test");  // 1. 创建调度器，指定3个工作线程，不使用调用线程作为工作线程
     sc.start();                             // 2. 启动调度器，创建3个工作线程，每个线程执行run()方法
     sleep(2);
     SYLAR_LOG_INFO(g_logger) << "schedule"; 
