@@ -119,7 +119,7 @@ uint64_t TimerManager::getNextTimer() {
     std::shared_lock<std::shared_mutex> read_lock(m_mutex);
     m_tickled = false;
     if(m_timers.empty()) {
-        return ~0ull;
+        return ~0ull;   // 最大的数值
     }
 
     const Timer::ptr& next = *m_timers.begin();

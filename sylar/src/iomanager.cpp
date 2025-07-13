@@ -293,9 +293,14 @@ void IOManager::tickle() {
     int rt = write(m_tickleFd, &value, sizeof(value));
     SYLAR_ASSERT(rt == sizeof(value));
 }
+bool IOManager::stopping(uint64_t& timeout) {
+    timeout = getNextTimer();
+    return timeout == ~0ull && m_pendingEventCount == 0 && Scheduler::stopping();
+}
 
 bool IOManager::stopping() {
-    return Scheduler::stopping() && m_pendingEventCount == 0;
+    uint64_t timeout = 0;
+    return stopping(timeout);
 }
 
 void IOManager::idle() {
@@ -306,14 +311,20 @@ void IOManager::idle() {
         delete[] ptr;
     });
     while(true) {
-        if(stopping()) {
-            SYLAR_LOG_INFO(g_logger) << "name=" << getName() << " idle stopping exit";
-            break;
+        uint64_t next_timeout = 0;
+        if(stopping(next_timeout)) {
+                SYLAR_LOG_INFO(g_logger) << "name=" << getName() << " idle stopping exit";
+                break;
         }
         int rt = 0;
         do {
             static const int MAX_TIMEOUT = 3000;
-            rt = epoll_wait(m_epfd, events, MAX_EVNETS, MAX_TIMEOUT);
+            if(next_timeout != ~0ull) {
+                next_timeout = (int)next_timeout > MAX_TIMEOUT ? MAX_TIMEOUT : next_timeout;
+            } else {
+                next_timeout = MAX_TIMEOUT;
+            }
+            rt = epoll_wait(m_epfd, events, MAX_EVNETS, (int)next_timeout);
 
             if(rt < 0 && errno == EINTR) {
             } else {
@@ -321,7 +332,7 @@ void IOManager::idle() {
             }
         } while(true);
         std::vector<std::function<void()> > cbs;
-        // listExpiredCb(cbs);
+        listExpiredCb(cbs);
         if(!cbs.empty()) {
             //SYLAR_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
             schedule(cbs.begin(), cbs.end());
@@ -381,8 +392,8 @@ void IOManager::idle() {
     }
 }
 
-// void IOManager::onTimerInsertedAtFront() {
-//     tickle();
-// }
+void IOManager::onTimerInsertedAtFront() {
+    tickle();
+}
 
 }

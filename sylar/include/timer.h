@@ -20,11 +20,12 @@ public:
     using ptr = std::shared_ptr<Timer>;
     bool cancel();
     bool refresh();
+
     bool reset(uint64_t ms, bool from_now);
 
 private:
-    Timer(uint64_t ms, std::function<void()> cb, bool recurring, TimerManager* manager);
-    Timer(uint64_t next);
+    Timer(uint64_t ms, std::function<void()> cb, bool recurring, TimerManager* manager);    // 通过TimerManager创建
+    Timer(uint64_t next);   // 
 private:
     bool m_recurring = false;  // 是否循环定时器
     uint64_t m_ms = 0;         // 执行周期
@@ -53,8 +54,8 @@ public:
     uint64_t getNextTimer();    // 到最近一个定时器执行的时间间隔(毫秒)
     void listExpiredCb(std::vector<std::function<void()> >& cbs);
     bool hasTimer();
+    
 protected:
-
     virtual void onTimerInsertedAtFront() = 0;  // 当有新的定时器插入到定时器的首部,执行该函数
     void addTimer(Timer::ptr val, std::unique_lock<std::shared_mutex>& lock);
 

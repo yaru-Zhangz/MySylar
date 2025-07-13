@@ -50,10 +50,22 @@ void test1() {
     sylar::IOManager iom(2, false);
     iom.schedule(&test_fiber);
 }
-
+sylar::Timer::ptr s_timer;
+void test_timer() {
+    sylar::IOManager iom(2);
+    s_timer = iom.addTimer(1000, [](){
+        SYLAR_LOG_INFO(g_logger) << "hello timer";
+        static int i = 0;
+        if(++i == 3) {
+            s_timer->reset(2000, true);
+            // s_timer->cancel();
+        }
+    }, true);
+}
 int main(int argc, char** argv) {
     
-    test1();
+    // test1();
+    test_timer();
     return 0;
 }
 
