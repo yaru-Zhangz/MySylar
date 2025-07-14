@@ -5,6 +5,7 @@
 #include <sys/syscall.h>
 #include<sys/time.h>
 #include <unistd.h>
+#include <chrono>
 namespace sylar {
 
 sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
@@ -48,13 +49,11 @@ sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
     }
 
     uint64_t GetCurrentMS() {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return tv.tv_sec * 1000ul + tv.tv_usec / 1000;
+        using namespace std::chrono;
+        return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
     }
     uint64_t GetCurrentUS() {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return tv.tv_sec * 1000 * 1000ul + tv.tv_usec;
+        using namespace std::chrono;
+        return duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
     }
 }

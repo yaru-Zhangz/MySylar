@@ -4,21 +4,16 @@ namespace sylar {
 
 
 bool Timer::Comparator::operator()(const Timer::ptr& lhs, const Timer::ptr& rhs) const {
-    if(!lhs && !rhs) {
-        return false;
-    }
-    if(!lhs) {
-        return true;
-    }
-    if(!rhs) {
-        return false;
-    }
-    if(lhs->m_next < rhs->m_next) {
-        return true;
-    }
-    if(rhs->m_next < lhs->m_next) {
-        return false;
-    }
+    // 处理空指针情况
+    if(!lhs && !rhs) return false;
+    if(!lhs) return true;
+    if(!rhs) return false;
+    
+    // 按执行时间排序
+    if(lhs->m_next < rhs->m_next) return true;
+    if(rhs->m_next < lhs->m_next) return false;
+    
+    // 时间相同则按指针地址排序
     return lhs.get() < rhs.get();
 }
 

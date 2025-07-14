@@ -76,11 +76,41 @@ m_threads
 
 
 #### 相关的类
-## 4、定时器
 
+## 4、IO协程调度模块
+每个IOManager对象独占一个epoll fd，该epoll实例管理所有注册的fd事件，单个fd可以同时注册读和写事件。
+### 定时器
+- Timer类表示单个计时器，支持一次性或循环定时，可取消、刷新或重置，只能通过TimerManager创建
+- TimerManager类管理所有定时器，可以添加和删除定时器，计算最近到期时间，收集过期回调，
+TODO: 高性能定时器，红黑树 + 多级时间轮
 Timer -> addTimer() --> cancel()
 获取当前的定时器触发离现在的时间差
 返回当前需要触发的时间差
+
+
+```
+        [Fiber]                 [Timer]
+           ^ N                     ^
+           |                       |
+           | 1                     |
+        [Thread]             [TimerManager]
+           ^ M                     ^
+           |                       |
+           | 1                     |
+      [Scheduler] <------- [IOManager(epoll)]
+
+```
+
+## 5、 Socket IO HOOK
+hook: 拦截和修改底层socket系统调用技术
+```
+sleep
+usleep
+
+
+
+```
+
 
 
 

@@ -78,7 +78,7 @@ void IOManager::FdContext::resetContext(EventContext& ctx) {
 
 void IOManager::FdContext::triggerEvent(Event event) {
     SYLAR_ASSERT(events & event);
-    events = (Event)(events & ~event);
+    events = (Event)(events & ~event);      // 清除该事件
     EventContext& ctx = getContext(event);
     if(ctx.cb) {
         ctx.scheduler->schedule(&ctx.cb);
@@ -91,14 +91,14 @@ void IOManager::FdContext::triggerEvent(Event event) {
 
 IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
     :Scheduler(threads, use_caller, name) {
-        m_epfd = epoll_create(5000);
+        m_epfd = epoll_create(5000);    // 创建epoll实例
         SYLAR_ASSERT(m_epfd > 0);
 
-        // 创建非阻塞的eventfd
-        m_tickleFd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
+        m_tickleFd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);    // 创建eventfd
         SYLAR_ASSERT(m_tickleFd != -1);
 
-        epoll_event event;
+        // 将eventfd添加到epoll监听
+        epoll_event event;      
         memset(&event, 0, sizeof(epoll_event));
         event.events = EPOLLIN | EPOLLET;
         event.data.fd = m_tickleFd;
@@ -110,7 +110,7 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
         SYLAR_ASSERT(!rt);
 
         contextResize(32);
-        start();
+        start();    // 启动调度器
 }
 
 IOManager::~IOManager() {
@@ -232,7 +232,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
     Event new_events = (Event)(fd_ctx->events & ~event);
     int op = new_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
     epoll_event epevent;
-    epevent.events = EPOLLET | new_events;
+    epevent.events = EPOLLET | static_cast<uint32_t>(new_events);
     epevent.data.ptr = fd_ctx;
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
@@ -331,6 +331,8 @@ void IOManager::idle() {
                 break;
             }
         } while(true);
+
+        // 处理定时器到期回调
         std::vector<std::function<void()> > cbs;
         listExpiredCb(cbs);
         if(!cbs.empty()) {
@@ -365,7 +367,7 @@ void IOManager::idle() {
 
             int left_events = (fd_ctx->events & ~real_events);
             int op = left_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
-            event.events = EPOLLET | left_events;
+            event.events = EPOLLET | static_cast<uint32_t>(left_events);
 
             int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
             if(rt2) {

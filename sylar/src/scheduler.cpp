@@ -2,6 +2,7 @@
 #include "log.h"
 #include "macro.h"
 #include "hook.h"
+
 namespace sylar {
 static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
@@ -122,7 +123,7 @@ void Scheduler::setThis() {
 // 工作线程的主协程在run里面通过GetThis创建
 void Scheduler::run() {
     SYLAR_LOG_DEBUG(g_logger) << m_name << " run";
-    // set_hook_enable(true);
+    set_hook_enable(true);
     setThis(); // 设置当前线程的调度器实例
     
     // 工作线程需要初始化自己的主协程
