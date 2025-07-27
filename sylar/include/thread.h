@@ -8,6 +8,7 @@
 #include <semaphore>
 
 #include "noncopyable.h"
+
 namespace sylar {
 
 // 利用RAII特性在构造时加锁，析构时解锁

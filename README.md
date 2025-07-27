@@ -111,11 +111,22 @@ Hook的本质是函数替换，通过以下步骤实现：
 sleep
 usleep
 
+socket相关的(socket, connect, accept)
+io相关(read, write, send, recv)
+fd相关(fcntl, ioctl, ...)
 
 
 ```
 ## 辅助类
 - fd_manager
+
+## socket函数库
+        
+        --------------
+           |Address|
+
+## http协议开发
+
 
 
 

@@ -35,6 +35,8 @@ set(LIB_SRC
     sylar/src/iomanager.cpp
     sylar/src/timer.cpp
     sylar/src/hook.cpp
+    sylar/src/fd_manager.cpp
+    sylar/src/address.cpp
     )
 
 add_library(sylar SHARED ${LIB_SRC})

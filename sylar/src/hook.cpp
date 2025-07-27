@@ -1,10 +1,12 @@
 #include "hook.h"
-#include "fiber.h"
-#include "config.h"
-#include "fd_manager.h"
-#include "iomanager.h"
-#include <dlfcn.h> // disym
+#include <dlfcn.h>// disym
 
+#include "config.h"
+#include "log.h"
+#include "fiber.h"
+#include "iomanager.h"
+#include "fd_manager.h"
+#include "macro.h"
 sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
 namespace sylar {
@@ -82,11 +84,14 @@ struct timer_info {
 template<typename OriginFun, typename... Args>
 static ssize_t do_io(int fd, OriginFun fun, const char* hook_fun_name,
         uint32_t event, int timeout_so, Args&&... args) {
+    // hook未启用，直接调用原始系统调用
     if(!sylar::t_hook_enable) {
         return fun(fd, std::forward<Args>(args)...);
     }
-
+    SYLAR_LOG_DEBUG(g_logger) << "do_io" << hook_fun_name << std::endl;
+    // 从FdManager获取fd上下文
     sylar::FdCtx::ptr ctx = sylar::FdMgr::GetInstance()->get(fd);
+    // 获取失败，直接调用原始系统调用
     if(!ctx) {
         return fun(fd, std::forward<Args>(args)...);
     }
@@ -95,24 +100,25 @@ static ssize_t do_io(int fd, OriginFun fun, const char* hook_fun_name,
         errno = EBADF;
         return -1;
     }
-
+    // 不是socket且用户设置了非阻塞模式，直接调用原始系统调用
     if(!ctx->isSocket() || ctx->getUserNonblock()) {
         return fun(fd, std::forward<Args>(args)...);
     }
-
     uint64_t to = ctx->getTimeout(timeout_so);
     std::shared_ptr<timer_info> tinfo(new timer_info);
 
 retry:
     ssize_t n = fun(fd, std::forward<Args>(args)...);
+    // 信号被中断，自动重试
     while(n == -1 && errno == EINTR) {
         n = fun(fd, std::forward<Args>(args)...);
     }
+    // 返回EAGAIN资源暂时不可用时
     if(n == -1 && errno == EAGAIN) {
         sylar::IOManager* iom = sylar::IOManager::GetThis();
         sylar::Timer::ptr timer;
         std::weak_ptr<timer_info> winfo(tinfo);
-
+        // 如果设置了超时时间，添加条件计时器，超时后取消等待的事件
         if(to != (uint64_t)-1) {
             timer = iom->addConditionTimer(to, [winfo, fd, iom, event]() {
                 auto t = winfo.lock();
@@ -123,9 +129,9 @@ retry:
                 iom->cancelEvent(fd, (sylar::IOManager::Event)(event));
             }, winfo);
         }
-
+        // 注册事件
         int rt = iom->addEvent(fd, (sylar::IOManager::Event)(event));
-        if(SYLAR_UNLIKELY(rt)) {
+        if(rt) {
             SYLAR_LOG_ERROR(g_logger) << hook_fun_name << " addEvent("
                 << fd << ", " << event << ")";
             if(timer) {
@@ -141,7 +147,7 @@ retry:
                 errno = tinfo->cancelled;
                 return -1;
             }
-            goto retry;
+            goto retry; // 非阻塞IO的重试机制
         }
     }
     
@@ -346,13 +352,13 @@ int close(int fd) {
 }
 
 int fcntl(int fd, int cmd, ... /* arg */ ) {
-    va_list va;
-    va_start(va, cmd);
+    va_list va;             // 定义一个va_list类型的对象
+    va_start(va, cmd);      // 初始化va_list对象，使其指向可变参数列表的第一个参数，cmd是最后一个已知参数
     switch(cmd) {
-        case F_SETFL:
+        case F_SETFL:       // 设置文件状态标志
             {
-                int arg = va_arg(va, int);
-                va_end(va);
+                int arg = va_arg(va, int);  // 获取下一个参数，每次调用都会移动指针到下一个参数
+                va_end(va);                 // 清理va_list对象
                 sylar::FdCtx::ptr ctx = sylar::FdMgr::GetInstance()->get(fd);
                 if(!ctx || ctx->isClose() || !ctx->isSocket()) {
                     return fcntl_f(fd, cmd, arg);
@@ -366,7 +372,7 @@ int fcntl(int fd, int cmd, ... /* arg */ ) {
                 return fcntl_f(fd, cmd, arg);
             }
             break;
-        case F_GETFL:
+        case F_GETFL:       // 获取文件状态标志 
             {
                 va_end(va);
                 int arg = fcntl_f(fd, cmd);
@@ -413,7 +419,7 @@ int fcntl(int fd, int cmd, ... /* arg */ ) {
         case F_SETLKW:
         case F_GETLK:
             {
-                struct flock* arg = va_arg(va, struct flock*);
+                auto arg = va_arg(va, struct flock*);
                 va_end(va);
                 return fcntl_f(fd, cmd, arg);
             }
@@ -421,7 +427,7 @@ int fcntl(int fd, int cmd, ... /* arg */ ) {
         case F_GETOWN_EX:
         case F_SETOWN_EX:
             {
-                struct f_owner_exlock* arg = va_arg(va, struct f_owner_exlock*);
+                auto arg = va_arg(va, struct f_owner_exlock*);
                 va_end(va);
                 return fcntl_f(fd, cmd, arg);
             }

@@ -9,11 +9,9 @@ bool Timer::Comparator::operator()(const Timer::ptr& lhs, const Timer::ptr& rhs)
     if(!lhs) return true;
     if(!rhs) return false;
     
-    // 按执行时间排序
-    if(lhs->m_next < rhs->m_next) return true;
-    if(rhs->m_next < lhs->m_next) return false;
-    
-    // 时间相同则按指针地址排序
+    // 按执行时间排序, 时间相同则按指针地址排序
+    if(lhs->m_next == rhs->m_next) return lhs.get() < rhs.get();
+    else return lhs->m_next < rhs->m_next;
     return lhs.get() < rhs.get();
 }
 
