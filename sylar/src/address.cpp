@@ -4,12 +4,12 @@
 #include <netdb.h>
 #include <ifaddrs.h>
 #include <stddef.h>
-
+#include <bit>
 #include "sylar_endian.h"
 
 namespace sylar {
     static sylar::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
-
+    // 
     template<class T>
     static T CreateMask(uint32_t bits) {
         return (1 << (sizeof(T) * 8 - bits)) - 1;
@@ -17,11 +17,7 @@ namespace sylar {
 
     template<class T>
     static uint32_t CountBytes(T value) {
-        uint32_t result = 0;
-        for(; value; ++result) {
-            value &= value - 1;
-        }
-        return result;
+        return std::popcount(value);
     }
 
     Address::ptr Address::LookupAny(const std::string& host,
@@ -37,9 +33,6 @@ namespace sylar {
                                     int family, int type, int protocol) {
         std::vector<Address::ptr> result;
         if(Lookup(result, host, family, type, protocol)) {
-            //for(auto& i : result) {
-            //    std::cout << i->toString() << std::endl;
-            //}
             for(auto& i : result) {
                 IPAddress::ptr v = std::dynamic_pointer_cast<IPAddress>(i);
                 if(v) {
@@ -49,6 +42,7 @@ namespace sylar {
         }
         return nullptr;
     }
+
     bool Address::Lookup(std::vector<Address::ptr>& result, const std::string& host,
                         int family, int type, int protocol) {
         addrinfo hints, *results, *next;
@@ -61,10 +55,10 @@ namespace sylar {
         hints.ai_addr = NULL;
         hints.ai_next = NULL;
 
-        std::string node;
-        const char* service = NULL;
+        std::string node;               // 主机名或IP地址
+        const char* service = NULL;     // 服务名或端口号
 
-        //检查 ipv6address serivce
+        // 检查 IPv6 地址格式 [IPv6地址]:port
         if(!host.empty() && host[0] == '[') {
             const char* endipv6 = (const char*)memchr(host.c_str() + 1, ']', host.size() - 1);
             if(endipv6) {
@@ -76,7 +70,7 @@ namespace sylar {
             }
         }
 
-        //检查 node serivce
+        // 检查 host:port 格式
         if(node.empty()) {
             service = (const char*)memchr(host.c_str(), ':', host.size());
             if(service) {
@@ -87,9 +81,11 @@ namespace sylar {
             }
         }
 
+        // 只有主机名，没有端口
         if(node.empty()) {
             node = host;
         }
+
         int error = getaddrinfo(node.c_str(), service, &hints, &results);
         if(error) {
             SYLAR_LOG_DEBUG(g_logger) << "Address::Lookup getaddress(" << host << ", "
@@ -101,7 +97,6 @@ namespace sylar {
         next = results;
         while(next) {
             result.push_back(Create(next->ai_addr, (socklen_t)next->ai_addrlen));
-            //SYLAR_LOG_INFO(g_logger) << ((sockaddr_in*)next->ai_addr)->sin_addr.s_addr;
             next = next->ai_next;
         }
 
@@ -109,9 +104,7 @@ namespace sylar {
         return !result.empty();
     }
 
-    bool Address::GetInterfaceAddresses(std::multimap<std::string
-                        ,std::pair<Address::ptr, uint32_t> >& result,
-                        int family) {
+    bool Address::GetInterfaceAddresses(std::multimap<std::string, std::pair<Address::ptr, uint32_t>>& result, int family) {
         struct ifaddrs *next, *results;
         if(getifaddrs(&results) != 0) {
             SYLAR_LOG_DEBUG(g_logger) << "Address::GetInterfaceAddresses getifaddrs "
@@ -149,8 +142,7 @@ namespace sylar {
                 }
 
                 if(addr) {
-                    result.insert(std::make_pair(next->ifa_name,
-                                std::make_pair(addr, prefix_len)));
+                    result.insert(std::make_pair(next->ifa_name, std::make_pair(addr, prefix_len)));
                 }
             }
         } catch (...) {
@@ -162,8 +154,7 @@ namespace sylar {
         return !result.empty();
     }
 
-    bool Address::GetInterfaceAddresses(std::vector<std::pair<Address::ptr, uint32_t> >&result
-                        ,const std::string& iface, int family) {
+    bool Address::GetInterfaceAddresses(std::vector<std::pair<Address::ptr, uint32_t>>&result, const std::string& iface, int family) {
         if(iface.empty() || iface == "*") {
             if(family == AF_INET || family == AF_UNSPEC) {
                 result.push_back(std::make_pair(Address::ptr(new IPv4Address()), 0u));
@@ -174,8 +165,7 @@ namespace sylar {
             return true;
         }
 
-        std::multimap<std::string
-            ,std::pair<Address::ptr, uint32_t> > results;
+        std::multimap<std::string, std::pair<Address::ptr, uint32_t> > results;
 
         if(!GetInterfaceAddresses(results, family)) {
             return false;
@@ -237,7 +227,7 @@ namespace sylar {
         addrinfo hints, *results;
         memset(&hints, 0, sizeof(addrinfo));
 
-        hints.ai_flags = AI_NUMERICHOST;
+        // hints.ai_flags = AI_NUMERICHOST;
         hints.ai_family = AF_UNSPEC;
 
         int error = getaddrinfo(address, NULL, &hints, &results);
@@ -522,7 +512,7 @@ namespace sylar {
     sockaddr* UnknownAddress::getAddr() {
         return (sockaddr*)&m_addr;
     }
-    
+
     const sockaddr* UnknownAddress::getAddr() const {
         return &m_addr;
     }
